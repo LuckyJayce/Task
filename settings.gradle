@@ -1,0 +1,4 @@
+include ':app'
+include ':mvchelper_task_core'
+include ':mvchelper_tasks'
+include ':mvchelper_testcase'
