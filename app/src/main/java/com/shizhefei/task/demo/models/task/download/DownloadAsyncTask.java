@@ -5,11 +5,12 @@ import com.shizhefei.mvc.ResponseSender;
 import com.shizhefei.task.IAsyncTask;
 
 /**
- * 模拟下载task
+ * 模拟自己开线程下载task
  */
 public class DownloadAsyncTask implements IAsyncTask<String> {
     private String url;
     private String filePath;
+    private volatile boolean cancel = false;
 
     public DownloadAsyncTask(String url, String filePath) {
         this.url = url;
@@ -17,12 +18,34 @@ public class DownloadAsyncTask implements IAsyncTask<String> {
     }
 
     @Override
-    public RequestHandle execute(ResponseSender<String> sender) throws Exception {
-        int total = 500;
-        for (int i = 0; i < total; i++) {
-            sender.sendProgress(i, total, null);
-        }
-        sender.sendData(filePath);
-        return null;
+    public RequestHandle execute(final ResponseSender<String> sender) throws Exception {
+        new Thread() {
+            @Override
+            public void run() {
+                int total = 200;
+                for (int i = 0; i < total && !cancel; i++) {
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    sender.sendProgress(i, total, null);
+                }
+                if (!cancel) {
+                    sender.sendData(filePath);
+                }
+            }
+        }.start();
+        return new RequestHandle() {
+            @Override
+            public void cancle() {
+                cancel = true;
+            }
+
+            @Override
+            public boolean isRunning() {
+                return false;
+            }
+        };
     }
 }

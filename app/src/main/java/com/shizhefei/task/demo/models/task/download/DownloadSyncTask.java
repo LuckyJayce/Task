@@ -9,6 +9,7 @@ import com.shizhefei.task.ITask;
 public class DownloadSyncTask implements ITask<String> {
     private String url;
     private String filePath;
+    private volatile boolean cancel;
 
     public DownloadSyncTask(String url, String filePath) {
         this.url = url;
@@ -18,7 +19,7 @@ public class DownloadSyncTask implements ITask<String> {
     @Override
     public String execute(ProgressSender progressSender) throws Exception {
         int total = 500;
-        for (int i = 0; i < total; i++) {
+        for (int i = 0; i < total && !cancel; i++) {
             Thread.sleep(10);
             progressSender.sendProgress(i, total, null);
         }
@@ -27,6 +28,6 @@ public class DownloadSyncTask implements ITask<String> {
 
     @Override
     public void cancel() {
-
+        cancel = true;
     }
 }
