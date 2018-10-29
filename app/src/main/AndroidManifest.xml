@@ -19,7 +19,8 @@
         </activity>
         <activity android:name=".controllers.LoginActivity" />
         <activity android:name=".controllers.RegisterActivity" />
-        <activity android:name=".controllers.DownloadActivity"></activity>
+        <activity android:name=".controllers.DownloadActivity" />
+        <activity android:name=".controllers.ComplexActivity"></activity>
     </application>
 
 </manifest>
