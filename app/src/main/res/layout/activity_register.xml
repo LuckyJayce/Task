@@ -4,46 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="8dp"
     tools:context=".controllers.LoginActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/person" />
-
-    <EditText
-        android:id="@+id/register_name_editText"
+    <com.shizhefei.task.demo.view.TestTitleBar
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="12dp"
-        android:ems="10"
-        android:gravity="center_vertical"
-        android:hint="用户名"
-        android:inputType="textPersonName"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp" />
+        android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/register_password_editText"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:gravity="center_vertical"
-        android:hint="密码"
-        android:inputType="textPassword"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp" />
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="8dp">
 
-    <Button
-        android:id="@+id/register_register_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="注册" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/person" />
+
+        <EditText
+            android:id="@+id/register_name_editText"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="12dp"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="用户名"
+            android:inputType="textPersonName"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+
+        <EditText
+            android:id="@+id/register_password_editText"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="密码"
+            android:inputType="textPassword"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+
+        <Button
+            android:id="@+id/register_register_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="注册" />
+
+    </LinearLayout>
 
 </LinearLayout>

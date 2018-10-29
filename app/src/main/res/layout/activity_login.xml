@@ -4,53 +4,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="8dp"
     tools:context=".controllers.LoginActivity">
 
-
-    <EditText
-        android:id="@+id/login_name_editText"
+    <com.shizhefei.task.demo.view.TestTitleBar
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:ems="10"
-        android:gravity="center_vertical"
-        android:hint="用户名"
-        android:inputType="textPersonName"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp" />
+        android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/login_password_editText"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:gravity="center_vertical"
-        android:hint="密码"
-        android:inputType="textPassword"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp" />
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="8dp">
 
-    <Button
-        android:id="@+id/login_login_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="同步后台task登录" />
+        <EditText
+            android:id="@+id/login_name_editText"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="用户名"
+            android:inputType="textPersonName"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+
+        <EditText
+            android:id="@+id/login_password_editText"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:gravity="center_vertical"
+            android:hint="密码"
+            android:inputType="textPassword"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" />
+
+        <Button
+            android:id="@+id/login_login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="同步后台task登录" />
 
 
-    <Button
-        android:id="@+id/login_login_async_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="异步task登录" />
+        <Button
+            android:id="@+id/login_login_async_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="异步task登录" />
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="提示密码 111111，用户名任意"
-        android:textColor="#aaaaaa" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="提示密码 111111，用户名任意"
+            android:textColor="#aaaaaa" />
+    </LinearLayout>
 </LinearLayout>

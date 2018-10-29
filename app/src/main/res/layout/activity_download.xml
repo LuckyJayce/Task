@@ -4,21 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
     tools:context=".controllers.MainActivity">
 
-    <Button
-        android:id="@+id/download_async_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="同步下载的task" />
+    <com.shizhefei.task.demo.view.TestTitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/download_sync_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="异步下载的task" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <Button
+            android:id="@+id/download_async_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="同步下载的task" />
+
+        <Button
+            android:id="@+id/download_sync_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="异步下载的task" />
+
+    </LinearLayout>
 
 
 </LinearLayout>

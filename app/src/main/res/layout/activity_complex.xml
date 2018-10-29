@@ -6,4 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".controllers.ComplexActivity">
 
+    <com.shizhefei.task.demo.view.TestTitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </android.support.constraint.ConstraintLayout>
