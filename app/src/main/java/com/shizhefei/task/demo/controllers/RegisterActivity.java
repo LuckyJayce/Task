@@ -1,5 +1,6 @@
 package com.shizhefei.task.demo.controllers;
 
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,35 +12,33 @@ import com.shizhefei.task.Code;
 import com.shizhefei.task.TaskHelper;
 import com.shizhefei.task.demo.R;
 import com.shizhefei.task.demo.models.entities.User;
-import com.shizhefei.task.demo.models.task.login.LoginAsyncTask;
-import com.shizhefei.task.demo.models.task.login.LoginSyncTask;
+import com.shizhefei.task.demo.models.task.register.RegisterTask;
 import com.shizhefei.task.demo.view.ProgressDialog;
 import com.shizhefei.task.imp.SimpleCallback;
 
+import java.io.File;
+
 /**
- * 登录界面
+ * 注册界面, 多个task组合demo
  */
-public class LoginActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     private EditText nameEditText;
     private EditText passwordEditText;
-    private Button loginButton;
-    private Button loginAsyncButton;
+    private Button registerButton;
     private TaskHelper<Object> taskHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        nameEditText = findViewById(R.id.login_name_editText);
-        passwordEditText = findViewById(R.id.login_password_editText);
-        loginButton = findViewById(R.id.login_login_button);
-        loginAsyncButton = findViewById(R.id.login_login_async_button);
+        setContentView(R.layout.activity_register);
+        nameEditText = findViewById(R.id.register_name_editText);
+        passwordEditText = findViewById(R.id.register_password_editText);
+        registerButton = findViewById(R.id.register_register_button);
 
         taskHelper = new TaskHelper<>();
 
-        loginButton.setOnClickListener(onClickListener);
-        loginAsyncButton.setOnClickListener(onClickListener);
+        registerButton.setOnClickListener(onClickListener);
     }
 
     @Override
@@ -54,26 +53,25 @@ public class LoginActivity extends AppCompatActivity {
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            String name = nameEditText.getText().toString();
-            String password = passwordEditText.getText().toString();
+            if (v == registerButton) {
+                String name = nameEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
 
-            if (v == loginButton) {
-                taskHelper.execute(new LoginSyncTask(name, password), new LoginCallback());
-            } else if (v == loginAsyncButton) {
-                taskHelper.execute(new LoginAsyncTask(name, password), new LoginCallback());
+                String imagePath = new File(Environment.getExternalStorageDirectory(), "a.png").getPath();
+                taskHelper.execute(new RegisterTask(name, 11, password, imagePath), new RegisterCallback());
             }
         }
     };
 
-    //登录回调
-    private class LoginCallback extends SimpleCallback<User> {
+    //注册回调
+    private class RegisterCallback extends SimpleCallback<User> {
         private ProgressDialog progressDialog;
 
         @Override
         public void onPreExecute(Object task) {
             super.onPreExecute(task);
-            progressDialog = new ProgressDialog(LoginActivity.this);
-            progressDialog.setText("登录中..");
+            progressDialog = new ProgressDialog(RegisterActivity.this);
+            progressDialog.setText("注册中..");
             progressDialog.show();
         }
 
@@ -82,10 +80,10 @@ public class LoginActivity extends AppCompatActivity {
             progressDialog.dismiss();
             switch (code) {
                 case SUCCESS:
-                    Toast.makeText(getApplicationContext(), "登录成功:" + user, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "注册成成功:" + user, Toast.LENGTH_LONG).show();
                     break;
                 case EXCEPTION:
-                    Toast.makeText(getApplicationContext(), "登录失败:" + exception.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "注册失败:" + exception.getMessage(), Toast.LENGTH_LONG).show();
                     break;
             }
         }

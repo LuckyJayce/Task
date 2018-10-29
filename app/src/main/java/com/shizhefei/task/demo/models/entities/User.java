@@ -1,4 +1,4 @@
-package com.shizhefei.task.demo.models;
+package com.shizhefei.task.demo.models.entities;
 
 public class User {
     private String name;

@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="8dp"
     tools:context=".controllers.LoginActivity">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/person" />
 
     <EditText
-        android:id="@+id/login_name_editText"
+        android:id="@+id/register_name_editText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:gravity="center_vertical"
         android:hint="用户名"
@@ -20,7 +28,7 @@
         android:paddingRight="8dp" />
 
     <EditText
-        android:id="@+id/login_password_editText"
+        android:id="@+id/register_password_editText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
@@ -32,25 +40,10 @@
         android:paddingRight="8dp" />
 
     <Button
-        android:id="@+id/login_login_button"
+        android:id="@+id/register_register_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="同步后台task登录" />
+        android:text="注册" />
 
-
-    <Button
-        android:id="@+id/login_login_async_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="异步task登录" />
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="提示密码 111111，用户名任意"
-        android:textColor="#aaaaaa" />
 </LinearLayout>

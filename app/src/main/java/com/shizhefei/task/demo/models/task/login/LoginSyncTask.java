@@ -1,15 +1,15 @@
-package com.shizhefei.task.demo.models.task;
+package com.shizhefei.task.demo.models.task.login;
 
 import com.shizhefei.mvc.ProgressSender;
 import com.shizhefei.task.ITask;
 import com.shizhefei.task.demo.exception.AuthException;
-import com.shizhefei.task.demo.models.User;
+import com.shizhefei.task.demo.models.entities.User;
 
-public class LoginTask implements ITask<User> {
+public class LoginSyncTask implements ITask<User> {
     private String name;
     private String password;
 
-    public LoginTask(String name, String password) {
+    public LoginSyncTask(String name, String password) {
         this.name = name;
         this.password = password;
     }
