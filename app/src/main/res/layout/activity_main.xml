@@ -35,4 +35,11 @@
         android:layout_marginTop="8dp"
         android:text="task操作符(多个task组合demo)" />
 
+    <Button
+        android:id="@+id/main_testcase_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="测试用例界面" />
+
 </LinearLayout>
