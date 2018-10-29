@@ -52,6 +52,7 @@ dependencies {
     implementation project(':mvchelper_tasks')
     implementation project(':mvchelper_testcase')
 
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     debugImplementation rootProject.ext.dependencies["leakcanary-android"]
     releaseImplementation rootProject.ext.dependencies["leakcanary-android-no-op"]
     // Optional, if you use support library fragments:
