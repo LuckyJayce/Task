@@ -9,22 +9,16 @@
     tools:context=".controllers.MainActivity">
 
     <Button
-        android:id="@+id/main_login_button"
+        android:id="@+id/download_async_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="登录Demo(简单同步和异步的task的demo)" />
+        android:text="同步下载的task" />
 
     <Button
-        android:id="@+id/main_download_button"
+        android:id="@+id/download_sync_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="下载Demo(带有进度的demo)" />
+        android:text="异步下载的task" />
 
-    <Button
-        android:id="@+id/main_register_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="注册demo(多个task组合demo，模拟注册压缩，上传图片提交信息给服务器的多个步骤)" />
 
 </LinearLayout>

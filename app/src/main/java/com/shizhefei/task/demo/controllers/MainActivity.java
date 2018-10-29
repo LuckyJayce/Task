@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button loginButton;
     private Button registerButton;
+    private Button downloadButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,9 +20,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         loginButton = findViewById(R.id.main_login_button);
         registerButton = findViewById(R.id.main_register_button);
+        downloadButton = findViewById(R.id.main_download_button);
 
         loginButton.setOnClickListener(onClickListener);
         registerButton.setOnClickListener(onClickListener);
+        downloadButton.setOnClickListener(onClickListener);
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             } else if (v == registerButton) {
                 startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
+            } else if (v == downloadButton) {
+                startActivity(new Intent(getApplicationContext(), DownloadActivity.class));
             }
         }
     };
