@@ -93,7 +93,7 @@ method.executeAsync(sender, new ResponseParser<User>() {
 
 ```
 //Task操作符类库
-compile 'com.shizhefei:MVCHelper-OkHttp:1.3.2'
+compile 'com.shizhefei:MVCHelper-OkHttp:1.4.0'
 ```
 
 ## 结构
