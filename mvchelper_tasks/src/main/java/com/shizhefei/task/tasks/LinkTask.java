@@ -24,18 +24,28 @@ public abstract class LinkTask<D> implements IAsyncTask<D> {
     public <DATA> LinkTask<DATA> concatWith(IAsyncTask<DATA> task2) {
         return Tasks.concatWith(this, task2);
     }
-//
-//    public LinkTask<D> retry(Func2<IAsyncTask<D>, Exception, IAsyncTask<D>> func2) {
-//        return Tasks.retry(this, func2);
-//    }
-//
+
+    public LinkTask<D> retry(Func2<IAsyncTask<D>, Exception, IAsyncTask<D>> func2) {
+        return Tasks.retry(this, func2);
+    }
+
+    //
 //    public LinkTask<D> retry() {
 //        return Tasks.retry(this);
 //    }
 //
-//    public LinkTask<D> retry(int maxTimes) {
-//        return Tasks.retry(this, maxTimes);
-//    }
+    public LinkTask<D> retry(int maxTimes) {
+        return Tasks.retry(this, maxTimes);
+    }
+
+    public LinkTask<D> timeout(long time) {
+        return Tasks.timeout(this, time);
+    }
+
+    public LinkTask<D> delay(long delay) {
+        return Tasks.delay(this, delay);
+    }
+
 //
 //    public ISuperTask<?>[] getChildTasks(){
 //        return null;

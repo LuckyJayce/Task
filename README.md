@@ -1,6 +1,6 @@
 # Task #
 
-该类库的用途：将执行过程抽象成Task
+该类库的用途：
 
 **【1】抽象性，面向接口编程，实现Task接口即可，所有执行过程都可以描述为一个task**
 
@@ -100,7 +100,7 @@ compile 'com.shizhefei:MVCHelper-OkHttp:1.3.2'
 
 ![image](raw/Task.png)  
 
-**【1】 ITask ：同步Task，不需要自己开线程，execute的方法在后台执行可以执行超时任务**
+**【1】 ITask ：后台Task，不需要自己开线程，execute的方法在后台执行可以执行超时任务**
 
 ```
 public interface ITask<DATA> extends ISuperTask<DATA> {
@@ -196,7 +196,7 @@ public class GetDetail implements IAsyncTask<Book> {
 }
 ```
 
-**【3】IDataSource ， IAsyncDataSource 和ITask ， IAsyncTask 类似用于列表请求：**
+**【3】IDataSource ， IAsyncDataSource 和ITask ， IAsyncTask 类似，用于列表请求：**
 
 ​           使用详情参考：https://github.com/LuckyJayce/MVCHelper 项目
 
@@ -264,3 +264,102 @@ taskHelper.unRegisterCallBack(allcallback);
 
 ```
 
+## 操作符
+
+**【1】delay 延时**
+
+```
+//延时10秒执行
+IAsyncTask<HomeData> task = ITaskTasks.create(new GetHomeDataTask()).delay(10 * 1000)
+```
+
+**【2】timeout 超时**
+
+```
+//超时30秒任务直接失败，Callback接收到TimeoutException不再接收task返回的数据，task会被调用cancel执行取消逻辑
+IAsyncTask<HomeData> task = Tasks.create(new GetHomeDataTask()).timeout(30 * 1000);
+```
+
+**【3】retry 重试**，task执行过程出现异常，时调用
+
+```
+//失败重试3次
+IAsyncTask<HomeConfigData> task = Tasks.create(new GetHomeConfigDataTask()).retry(3);
+```
+
+判断失败原因执行新的task
+
+```
+IAsyncTask<HomeData> task = Tasks.create(new GetHomeDataTask()).retry(new Func2<IAsyncTask<HomeData>, Exception, IAsyncTask<HomeData>>() {
+    @Override
+    public IAsyncTask<HomeData> call(IAsyncTask<HomeData> homeDataIAsyncTask, Exception e) throws Exception {
+        //判断失败原因执行新的task
+        return null;
+    }
+});
+```
+
+**【4】concatWith 顺序执行下一个task**
+
+```
+//获取首页配置继续获取首页ad
+LinkTask<HomeAdData> task = Tasks.create(new GetHomeConfigDataTask()).concatWith(new GetHomeAdDataTask());
+```
+
+**【4】concatMap 顺序执行下一个task, 这里可以得到上一个task的结果值**
+
+```
+//通过获取配置信息，通过配置信息获取首页广告
+LinkTask<HomeAdData> task = Tasks.create(new GetHomeConfigDataTask()).concatMap(new Func1<HomeConfigData, IAsyncTask<HomeAdData>>() {
+    @Override
+    public IAsyncTask<HomeAdData> call(HomeConfigData data) throws Exception {
+        return new GetHomeAdDataTask(data);
+    }
+});
+```
+
+**【5】combine 并发执行task，当所有的task执行完成返回所有的结果值**
+
+```
+LinkTask<HomeData> task = Tasks.combine(new GetHomeAdDataTask(), new GetHomeSaleTask(), new Func2<HomeAdData, HomeSaleData, HomeData>() {
+    @Override
+    public HomeData call(HomeAdData homeAdData, HomeSaleData homeSaleData) throws Exception {
+        return new HomeData(homeAdData, homeSaleData);
+    }
+});
+```
+
+**【6】组合的一个例子：**
+
+1.延迟10秒获取首页配置
+
+2.通过首页配置，获取首页广告数据，获取首页销售数据
+
+3.将销售数据和广告数据合成一个首页完整数据
+
+4.如果整个task执行过程中失败重试3次
+
+5.如果整个task执行超过30秒，则抛出超时异常不再执行
+
+```
+public class GetHomeDataTask extends ProxyTask<HomeData> {
+
+    @Override
+    protected IAsyncTask<HomeData> getTask() {
+        return Tasks.create(new GetHomeConfigDataTask()).delay(10 * 1000)//延迟10秒获取首页配置
+                .concatMap(new Func1<HomeConfigData, IAsyncTask<HomeData>>() {//通过首页配置，获取首页广告数据，获取首页销售数据
+                    @Override
+                    public IAsyncTask<HomeData> call(HomeConfigData data) throws Exception {
+                        return Tasks.combine(new GetHomeAdDataTask(), new GetHomeSaleTask(), new Func2<HomeAdData, HomeSaleData, HomeData>() {
+                            @Override
+                            public HomeData call(HomeAdData homeAdData, HomeSaleData homeSaleData) throws Exception {
+                            //将销售数据和广告数据合成一个首页完整数据
+                                return new HomeData(homeAdData, homeSaleData);
+                            }
+                        });
+                    }
+                }).retry(3)//如果整个task执行过程中失败重试3次
+                .timeout(30 * 1000);//.如果整个task执行超过30秒，则抛出超时异常不再执行
+    }
+}
+```

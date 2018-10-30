@@ -161,11 +161,11 @@ public class Tasks {
     }
 
 
-    public static <DATA> LinkTask<DATA> delay(IAsyncTask<DATA> task, int delay) {
+    public static <DATA> LinkTask<DATA> delay(IAsyncTask<DATA> task, long delay) {
         return new DelayLinkTask<>(task, delay);
     }
 
-    public static <DATA> LinkTask<DATA> timeout(IAsyncTask<DATA> task, int timeout) {
+    public static <DATA> LinkTask<DATA> timeout(IAsyncTask<DATA> task, long timeout) {
         return new TimeoutLinkTask<>(task, timeout);
     }
 }

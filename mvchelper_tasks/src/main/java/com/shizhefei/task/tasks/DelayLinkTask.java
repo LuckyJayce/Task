@@ -15,10 +15,10 @@ import com.shizhefei.task.IAsyncTask;
 class DelayLinkTask<DATA> extends LinkTask<DATA> {
 
     private final IAsyncTask<DATA> task;
-    private final int delay;
+    private final long delay;
     private Handler handler;
 
-    public DelayLinkTask(IAsyncTask<DATA> task, int delay) {
+    public DelayLinkTask(IAsyncTask<DATA> task, long delay) {
         super();
         this.task = task;
         this.delay = delay;

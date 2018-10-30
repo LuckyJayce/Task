@@ -16,11 +16,11 @@ import com.shizhefei.task.ResponseSenderCallback;
 
 public class TimeoutLinkTask<DATA> extends LinkTask<DATA> {
     private final Handler handler;
-    private final int timeout;
+    private final long timeout;
     private IAsyncTask<DATA> task;
     private Code resultCode;
 
-    public TimeoutLinkTask(IAsyncTask<DATA> task, int timeout) {
+    public TimeoutLinkTask(IAsyncTask<DATA> task, long timeout) {
         this.task = task;
         this.timeout = timeout;
         handler = new Handler(Looper.getMainLooper());
@@ -40,7 +40,7 @@ public class TimeoutLinkTask<DATA> extends LinkTask<DATA> {
             @Override
             public void run() {
                 if (resultCode == null) {
-                    sender.sendError(new TimeoutException());
+                    sender.sendError(new TimeoutException(timeout));
                     taskHelper.cancle();
                 }
             }
@@ -67,5 +67,8 @@ public class TimeoutLinkTask<DATA> extends LinkTask<DATA> {
 
     public static class TimeoutException extends Exception {
 
+        public TimeoutException(long timeout) {
+            super("timeout:" + timeout);
+        }
     }
 }
