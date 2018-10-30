@@ -51,6 +51,7 @@ dependencies {
     implementation project(':mvchelper_task_core')
     implementation project(':mvchelper_tasks')
     implementation project(':mvchelper_testcase')
+    implementation project(':mvchelper_okhttp')
 
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     debugImplementation rootProject.ext.dependencies["leakcanary-android"]
