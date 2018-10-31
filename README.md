@@ -402,3 +402,25 @@ public class GetHomeDataTask extends ProxyTask<HomeData> {
     }
 }
 ```
+
+
+
+## 测试用例
+
+```
+public static class TestCaseFrFragment extends ABSTestCaseFragment {
+
+    @Override
+    protected List<TestCaseData> getTestCaseDatas() {
+        List<TestCaseData> data = new ArrayList<>();
+        data.add(new TestCaseData("登录", new LoginSyncTask("小明", "111111")));
+        data.add(new TestCaseData("注册", new RegisterTask("小明", 10, "111111", Environment.getExternalStorageDirectory() + File.separator + "a.png")));
+        data.add(new TestCaseData("下载", new DownloadSyncTask("url", "path")));
+        return data;
+    }
+}
+```
+
+以上代码生成的界面如下图：
+
+![image](raw/testcase.png)
