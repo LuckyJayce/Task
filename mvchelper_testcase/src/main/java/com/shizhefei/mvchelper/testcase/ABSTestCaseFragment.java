@@ -89,7 +89,8 @@ public abstract class ABSTestCaseFragment extends Fragment {
             @Override
             public boolean shouldSkipClass(Class<?> clazz) {
                 // 直接排除某个类 ，return true为排除
-                return clazz == Gson.class || clazz == Bitmap.class;
+                String name = clazz.getName();
+                return clazz == Gson.class || clazz == Bitmap.class || name.startsWith("android.") || name.startsWith("java.");
             }
         }).create();
         Gson gson = builder.create();
