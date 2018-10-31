@@ -7,7 +7,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -90,7 +89,7 @@ public abstract class ABSTestCaseFragment extends Fragment {
             public boolean shouldSkipClass(Class<?> clazz) {
                 // 直接排除某个类 ，return true为排除
                 String name = clazz.getName();
-                return clazz == Gson.class || clazz == Bitmap.class || name.startsWith("android.") || name.startsWith("java.");
+                return clazz == Gson.class || name.startsWith("android.");
             }
         }).create();
         Gson gson = builder.create();
