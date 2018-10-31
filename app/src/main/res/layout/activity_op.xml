@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/op_root_layout"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".controllers.OPActivity">
+
+    <com.shizhefei.task.demo.view.TestTitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/op_run_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="开始执行" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cccc" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--延迟时间-->
+        <EditText
+            android:id="@+id/op_delay_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:inputType="number"
+            android:minWidth="100dp"
+            android:text="1000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="延时时间："
+            app:layout_constraintBottom_toTopOf="@+id/op_gethomeconfig_taskSettingView"
+            app:layout_constraintEnd_toStartOf="@+id/op_delay_editText"
+            app:layout_constraintTop_toTopOf="@+id/op_delay_editText" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="毫秒"
+            app:layout_constraintBottom_toBottomOf="@+id/op_delay_editText"
+            app:layout_constraintStart_toEndOf="@+id/op_delay_editText"
+            app:layout_constraintTop_toTopOf="@+id/op_delay_editText" />
+
+        <!--获取主页配置-->
+        <com.shizhefei.task.demo.view.TaskSettingView
+            android:id="@+id/op_gethomeconfig_taskSettingView"
+            android:layout_width="wrap_content"
+            android:layout_height="155dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.505"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:task_name="获取主页配置"
+            app:time="1000" />
+
+        <!--获取主页广告-->
+        <com.shizhefei.task.demo.view.TaskSettingView
+            android:id="@+id/op_gethomead_taskSettingView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/op_gethomeconfig_taskSettingView"
+            app:task_name="获取主页广告"
+            app:time="3000" />
+
+        <!--获取主页销售栏-->
+        <com.shizhefei.task.demo.view.TaskSettingView
+            android:id="@+id/op_gethomesale_taskSettingView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/op_gethomeconfig_taskSettingView"
+            app:task_name="获取主页销售栏"
+            app:time="1000" />
+
+        <!--上报信息-->
+        <com.shizhefei.task.demo.view.TaskSettingView
+            android:id="@+id/op_report_taskSettingView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/op_gethomead_taskSettingView"
+            app:task_name="上报信息"
+            app:time="2000" />
+
+        <!--失败重试次数-->
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="失败重试次数："
+            app:layout_constraintBottom_toBottomOf="@+id/op_retry_editText"
+            app:layout_constraintEnd_toStartOf="@+id/op_retry_editText"
+            app:layout_constraintTop_toTopOf="@+id/op_retry_editText"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <EditText
+            android:id="@+id/op_retry_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:inputType="number"
+            android:minWidth="100dp"
+            android:text="0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.517"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/op_report_taskSettingView" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="次"
+            app:layout_constraintBottom_toBottomOf="@+id/op_retry_editText"
+            app:layout_constraintStart_toEndOf="@+id/op_retry_editText"
+            app:layout_constraintTop_toTopOf="@+id/op_retry_editText"
+            app:layout_constraintVertical_bias="0.941" />
+
+
+        <!--超时时间-->
+        <EditText
+            android:id="@+id/op_timeout_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:inputType="number"
+            android:minWidth="100dp"
+            android:text="20000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.515"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/op_retry_editText" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="毫秒"
+            app:layout_constraintBottom_toBottomOf="@+id/op_timeout_editText"
+            app:layout_constraintStart_toEndOf="@+id/op_timeout_editText"
+            app:layout_constraintTop_toTopOf="@+id/op_timeout_editText" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="超时时间："
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/op_timeout_editText"
+            app:layout_constraintTop_toTopOf="@+id/op_timeout_editText" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

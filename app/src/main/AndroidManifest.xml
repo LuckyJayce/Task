@@ -23,7 +23,7 @@
         <activity android:name=".controllers.LoginActivity" />
         <activity android:name=".controllers.RegisterActivity" />
         <activity android:name=".controllers.DownloadActivity" />
-        <activity android:name=".controllers.ComplexActivity" />
+        <activity android:name=".controllers.OPActivity" />
         <activity android:name=".controllers.TestCaseActivity"></activity>
     </application>
 

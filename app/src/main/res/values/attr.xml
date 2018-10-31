@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TaskSettingView">
+        <attr name="task_name" format="string" />
+        <attr name="time" format="integer" />
+        <attr name="exception" format="string" />
+    </declare-styleable>
+</resources>

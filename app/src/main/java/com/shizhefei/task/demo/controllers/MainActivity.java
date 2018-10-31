@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
     private Button loginButton;
     private Button registerButton;
     private Button downloadButton;
-    private Button complexButton;
+    private Button opButton;
     private Button testcaseButton;
 
     @Override
@@ -23,13 +23,13 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.main_login_button);
         registerButton = findViewById(R.id.main_register_button);
         downloadButton = findViewById(R.id.main_download_button);
-        complexButton = findViewById(R.id.main_complex_button);
+        opButton = findViewById(R.id.main_complex_button);
         testcaseButton = findViewById(R.id.main_testcase_button);
 
         loginButton.setOnClickListener(onClickListener);
         registerButton.setOnClickListener(onClickListener);
         downloadButton.setOnClickListener(onClickListener);
-        complexButton.setOnClickListener(onClickListener);
+        opButton.setOnClickListener(onClickListener);
         testcaseButton.setOnClickListener(onClickListener);
     }
 
@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
             } else if (v == downloadButton) {
                 startActivity(new Intent(getApplicationContext(), DownloadActivity.class));
-            } else if (v == complexButton) {
-                startActivity(new Intent(getApplicationContext(), ComplexActivity.class));
+            } else if (v == opButton) {
+                startActivity(new Intent(getApplicationContext(), OPActivity.class));
             } else if (v == testcaseButton) {
                 startActivity(new Intent(getApplicationContext(), TestCaseActivity.class));
             }
