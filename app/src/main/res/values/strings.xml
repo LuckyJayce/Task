@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Task</string>
+    <string name="run">开始执行</string>
+    <string name="cancel">取消</string>
 </resources>

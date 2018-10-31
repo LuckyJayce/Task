@@ -71,11 +71,16 @@ public class OPActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             if (v == runButton) {
-                InputMethodManager inputMethodManager = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (inputMethodManager != null) {
-                    inputMethodManager.hideSoftInputFromWindow(runButton.getWindowToken(), 0);
+                if (runButton.getText().toString().equals(getString(R.string.cancel))) {//如果是取消按钮状态
+                    //取消任务
+                    taskHelper.cancelAll();
+                } else {//执行任务
+                    InputMethodManager inputMethodManager = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (inputMethodManager != null) {
+                        inputMethodManager.hideSoftInputFromWindow(runButton.getWindowToken(), 0);
+                    }
+                    taskHelper.execute(new LoadTask(), new LoadCallback());
                 }
-                taskHelper.execute(new LoadTask(), new LoadCallback());
             } else if (v == rootLayout) {
                 InputMethodManager inputMethodManager = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (inputMethodManager != null) {
@@ -121,9 +126,15 @@ public class OPActivity extends AppCompatActivity {
     }
 
     private class LoadCallback extends SimpleCallback<String> {
+        @Override
+        public void onPreExecute(Object task) {
+            super.onPreExecute(task);
+            runButton.setText(R.string.cancel);
+        }
 
         @Override
         public void onPostExecute(Object task, Code code, Exception exception, String s) {
+            runButton.setText(R.string.run);
             switch (code) {
                 case SUCCESS:
                     Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
