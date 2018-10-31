@@ -156,6 +156,21 @@ public class Tasks {
         return new CombineTask<>(task1, task2, LogFuncs.made("combine", func));
     }
 
+    /**
+     * 合并三个task，三个task一起执行，其中一个报错就停止执行，func将两个d1,d2和d3的结果转化成最终的data
+     *
+     * @param task1
+     * @param task2
+     * @param func
+     * @param <D1>
+     * @param <D2>
+     * @param <DATA>
+     * @return
+     */
+    public static <D1, D2, D3, DATA> LinkTask<DATA> combine(IAsyncTask<D1> task1, IAsyncTask<D2> task2, IAsyncTask<D3> task3, Func3<D1, D2, D3, DATA> func) {
+        return new Combine3Task<>(task1, task2, task3, LogFuncs.made("combine", func));
+    }
+
 
     /**
      * 按两个task先后顺序执行，task1的结果可以作为task的参数
