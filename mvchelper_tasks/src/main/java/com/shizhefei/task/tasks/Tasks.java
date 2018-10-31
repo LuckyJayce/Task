@@ -3,9 +3,14 @@ package com.shizhefei.task.tasks;
 
 import com.shizhefei.mvc.IAsyncDataSource;
 import com.shizhefei.mvc.IDataSource;
+import com.shizhefei.mvc.RequestHandle;
+import com.shizhefei.mvc.ResponseSender;
 import com.shizhefei.task.Code;
 import com.shizhefei.task.IAsyncTask;
+import com.shizhefei.task.ICallback;
 import com.shizhefei.task.ITask;
+import com.shizhefei.task.ResponseSenderCallback;
+import com.shizhefei.task.TaskHelper;
 import com.shizhefei.task.function.Func1;
 import com.shizhefei.task.function.Func2;
 import com.shizhefei.task.function.Func3;
@@ -142,15 +147,21 @@ public class Tasks {
         return new ConcatResultLinkTask<>(task, LogFuncs.made("concat", func));
     }
 
-    public static <DATA> LinkTask<DATA> retry(IAsyncTask<DATA> task) {
-        return retry(task, 1);
-    }
-
+    /**
+     * 失败重试， task执行过程出现异常时调用
+     *
+     * @param task
+     * @param maxTimes 失败的最大次数，超过这个次数不再重试
+     * @param <DATA>
+     * @return
+     */
     public static <DATA> LinkTask<DATA> retry(IAsyncTask<DATA> task, final int maxTimes) {
         return new RetryLinkTask<>("retry", task, maxTimes);
     }
 
     /**
+     * 失败重试， task执行过程出现异常时调用
+     *
      * @param task
      * @param func2  重试的处理逻辑 func2的call 返回重试的task，如果返回null表示不继续重试
      * @param <DATA>
@@ -161,11 +172,62 @@ public class Tasks {
     }
 
 
+    /**
+     * 延迟执行
+     *
+     * @param task
+     * @param delay  延迟时间，单位：毫秒
+     * @param <DATA>
+     * @return
+     */
     public static <DATA> LinkTask<DATA> delay(IAsyncTask<DATA> task, long delay) {
         return new DelayLinkTask<>(task, delay);
     }
 
+    /**
+     * 超时timeout毫秒任务直接失败，Callback接收到TimeoutException不再接收task返回的数据，task会被调用cancel执行取消逻辑
+     *
+     * @param task
+     * @param timeout 超时时间，单位：毫秒
+     * @param <DATA>
+     * @return
+     */
     public static <DATA> LinkTask<DATA> timeout(IAsyncTask<DATA> task, long timeout) {
         return new TimeoutLinkTask<>(task, timeout);
+    }
+
+    /**
+     * 将task和callback组成一个新的task
+     *
+     * @param task
+     * @param callback
+     * @param <DATA>
+     * @return
+     */
+    public static <DATA> IAsyncTask<DATA> wrapCallback(final IAsyncTask<DATA> task, final ICallback<DATA> callback) {
+        return new IAsyncTask<DATA>() {
+            @Override
+            public RequestHandle execute(ResponseSender<DATA> sender) throws Exception {
+                return new TaskHelper<>().execute(task, new ResponseSenderCallback<DATA>(sender) {
+                    @Override
+                    public void onPreExecute(Object task) {
+                        super.onPreExecute(task);
+                        callback.onPreExecute(task);
+                    }
+
+                    @Override
+                    public void onProgress(Object task, int percent, long current, long total, Object extraData) {
+                        super.onProgress(task, percent, current, total, extraData);
+                        callback.onProgress(task, percent, current, total, extraData);
+                    }
+
+                    @Override
+                    public void onPostExecute(Object task, Code code, Exception exception, DATA data) {
+                        super.onPostExecute(task, code, exception, data);
+                        callback.onPostExecute(task, code, exception, data);
+                    }
+                });
+            }
+        };
     }
 }
