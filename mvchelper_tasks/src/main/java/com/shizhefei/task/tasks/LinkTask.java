@@ -98,6 +98,10 @@ public abstract class LinkTask<D> implements IAsyncTask<D> {
         return Tasks.delay(this, delay);
     }
 
+    public <DATA> LinkTask<DATA> map(Func1<D, DATA> func1) {
+        return Tasks.map(this, func1);
+    }
+
     //
 //    public LinkTask<D> retry() {
 //        return Tasks.retry(this);

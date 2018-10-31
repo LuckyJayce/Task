@@ -264,23 +264,62 @@ taskHelper.unRegisterCallBack(allcallback);
 
 ```
 
+
+
 ## 操作符
 
-**【1】delay 延时**
+**【1】async 将ITask 转化为 IAsyncTask**
+
+```
+IAsyncTask<User> task = Tasks.async(new LoginSyncTask());
+```
+
+**【2】just 将一个数据构建为一个task**
+
+```
+IAsyncTask<User> task = Tasks.just(new User());
+```
+
+**【3】map 转化数据类型**
+
+```
+//将string型的111转化为数字111
+LinkTask<Integer> test = Tasks.just("111").map(new Func1<String, Integer>() {
+    @Override
+    public Integer call(String data) throws Exception {
+        return Integer.parseInt(data);
+    }
+});
+```
+
+**【4】defer 延迟创建task，执行时候才会创建实际task**
+
+主要用途，创建实际的task比较占用资源，等到执行的时候才去创建
+
+```
+LinkTask<User> task = Tasks.defer(new Func0<IAsyncTask<User>>() {
+    @Override
+    public IAsyncTask<User> call() throws Exception {
+        return new LoginAsyncTask("小明", "111111");
+    }
+});
+```
+
+**【5】delay 延时执行**
 
 ```
 //延时10秒执行
 IAsyncTask<HomeData> task = ITaskTasks.create(new GetHomeDataTask()).delay(10 * 1000)
 ```
 
-**【2】timeout 超时**
+**【6】timeout 超时**
 
 ```
 //超时30秒任务直接失败，Callback接收到TimeoutException不再接收task返回的数据，task会被调用cancel执行取消逻辑
 IAsyncTask<HomeData> task = Tasks.create(new GetHomeDataTask()).timeout(30 * 1000);
 ```
 
-**【3】retry 重试**，task执行过程出现异常，时调用
+**【7】retry 重试**，task执行过程出现异常，时调用
 
 ```
 //失败重试3次
@@ -299,14 +338,14 @@ IAsyncTask<HomeData> task = Tasks.create(new GetHomeDataTask()).retry(new Func2<
 });
 ```
 
-**【4】concatWith 顺序执行下一个task**
+**【8】concatWith 顺序执行下一个task**
 
 ```
 //获取首页配置继续获取首页ad
 LinkTask<HomeAdData> task = Tasks.create(new GetHomeConfigDataTask()).concatWith(new GetHomeAdDataTask());
 ```
 
-**【4】concatMap 顺序执行下一个task, 这里可以得到上一个task的结果值**
+**【9】concatMap 顺序执行下一个task, 这里可以得到上一个task的结果值**
 
 ```
 //通过获取配置信息，通过配置信息获取首页广告
@@ -318,7 +357,7 @@ LinkTask<HomeAdData> task = Tasks.create(new GetHomeConfigDataTask()).concatMap(
 });
 ```
 
-**【5】combine 并发执行task，当所有的task执行完成返回所有的结果值**
+**【10】combine 并发执行task，当所有的task执行完成返回所有的结果值**
 
 ```
 LinkTask<HomeData> task = Tasks.combine(new GetHomeAdDataTask(), new GetHomeSaleTask(), new Func2<HomeAdData, HomeSaleData, HomeData>() {
@@ -329,7 +368,7 @@ LinkTask<HomeData> task = Tasks.combine(new GetHomeAdDataTask(), new GetHomeSale
 });
 ```
 
-**【6】组合的一个例子：**
+**【11】组合的一个例子：**
 
 1.延迟10秒获取首页配置
 

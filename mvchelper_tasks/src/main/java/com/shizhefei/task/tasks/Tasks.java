@@ -11,6 +11,7 @@ import com.shizhefei.task.ICallback;
 import com.shizhefei.task.ITask;
 import com.shizhefei.task.ResponseSenderCallback;
 import com.shizhefei.task.TaskHelper;
+import com.shizhefei.task.function.Func0;
 import com.shizhefei.task.function.Func1;
 import com.shizhefei.task.function.Func2;
 import com.shizhefei.task.function.Func3;
@@ -31,6 +32,28 @@ public class Tasks {
      */
     public static <DATA> LinkTask<DATA> async(ITask<DATA> task) {
         return new AsyncLinkTask<>(task, true);
+    }
+
+    /**
+     * 延迟创建task
+     *
+     * @param <DATA>
+     * @return
+     */
+    public static <DATA> LinkTask<DATA> defer(Func0<IAsyncTask<DATA>> func) {
+        return new DeferLinkTask<>(func);
+    }
+
+    /**
+     * 通过异步task创建一个链式task
+     *
+     * @param <DATA>
+     * @param task
+     * @param func1
+     * @return 一个链式task
+     */
+    public static <D, DATA> LinkTask<DATA> map(IAsyncTask<D> task, Func1<D, DATA> func1) {
+        return new MapLinkTask<>(task, func1);
     }
 
     public static <DATA> LinkTask<DATA> just(DATA data) {
