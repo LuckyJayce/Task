@@ -65,7 +65,7 @@ IAsyncTask<User> task = Tasks
 ​     用于直接单独测试写好的task，提供简化的界面执行操作
 
 ```
-//Task操作符类库
+//Task测试用例类库
 compile 'com.shizhefei:MVCHelper-TestCase:1.4.0'
 ```
 
@@ -92,7 +92,7 @@ method.executeAsync(sender, new ResponseParser<User>() {
 引入方式：
 
 ```
-//Task操作符类库
+//Task的okhttp简化类库
 compile 'com.shizhefei:MVCHelper-OkHttp:1.4.0'
 ```
 
