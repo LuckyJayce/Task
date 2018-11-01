@@ -15,11 +15,10 @@ public abstract class LinkTask<D> implements IAsyncTask<D> {
      * @param task2
      * @param func
      * @param <D1>
-     * @param <D2>
      * @param <DATA>
      * @return
      */
-    public <D2, DATA> LinkTask<DATA> combine(IAsyncTask<D2> task2, Func2<D, D2, DATA> func) {
+    public <D1, DATA> LinkTask<DATA> combine(IAsyncTask<D1> task2, Func2<D, D1, DATA> func) {
         return Tasks.combine(this, task2, func);
     }
 
@@ -49,7 +48,6 @@ public abstract class LinkTask<D> implements IAsyncTask<D> {
      * 按两个task先后顺序执行
      *
      * @param task2
-     * @param <D>
      * @param <DATA>
      * @return
      */
@@ -81,7 +79,6 @@ public abstract class LinkTask<D> implements IAsyncTask<D> {
      * 超时timeout毫秒任务直接失败，Callback接收到TimeoutException不再接收task返回的数据，task会被调用cancel执行取消逻辑
      *
      * @param timeout 超时时间，单位：毫秒
-     * @param <DATA>
      * @return
      */
     public LinkTask<D> timeout(long timeout) {
