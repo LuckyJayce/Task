@@ -100,6 +100,14 @@ compile 'com.shizhefei:MVCHelper-OkHttp:1.4.0'
 
 ![image](raw/Task.png)  
 
+## 用法
+
+> **实现ITask 或者IAsyncTask**
+>
+> **执行 taskHelper.executor(task, callback);** 即可
+
+
+
 **【1】 ITask ：后台Task，不需要自己开线程，execute的方法在后台执行可以执行超时任务**
 
 ```
