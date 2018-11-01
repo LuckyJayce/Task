@@ -6,6 +6,8 @@
 
 **【2】可组合，复杂的Task（复杂多个多个步骤的执行过程）可以由多个简单task组合成一个task**
 
+[test](#3idatasource--iasyncdatasource-%E5%92%8Citask--iasynctask-%E7%B1%BB%E4%BC%BC%E7%94%A8%E4%BA%8E%E5%88%97%E8%A1%A8%E8%AF%B7%E6%B1%82)
+
 例如：注册流程：
 
 用户点击注册将头像，名字性别提交服务器：1.压缩头像，2上传头像到存储服务器返回头像url，3.将头像url和名字性别等信息提交服务器
@@ -402,8 +404,6 @@ public class GetHomeDataTask extends ProxyTask<HomeData> {
     }
 }
 ```
-
-
 
 ## 测试用例
 
