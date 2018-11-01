@@ -1,12 +1,12 @@
 # Task #
 
+[TOC]
+
 该类库的用途：
 
 **【1】抽象性，面向接口编程，实现Task接口即可，所有执行过程都可以描述为一个task**
 
 **【2】可组合，复杂的Task（复杂多个多个步骤的执行过程）可以由多个简单task组合成一个task**
-
-[test](#3idatasource--iasyncdatasource-%E5%92%8Citask--iasynctask-%E7%B1%BB%E4%BC%BC%E7%94%A8%E4%BA%8E%E5%88%97%E8%A1%A8%E8%AF%B7%E6%B1%82)
 
 例如：注册流程：
 
