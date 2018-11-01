@@ -97,6 +97,11 @@ public class TaskSettingView extends FrameLayout {
             public void cancel() {
 
             }
+
+            @Override
+            public String toString() {
+                return taskName;
+            }
         });
         return Tasks.wrapCallback(task, new UIUpdateCallback<DATA>());
     }

@@ -7,7 +7,6 @@ import com.shizhefei.task.ICallback;
 import com.shizhefei.task.ITask;
 import com.shizhefei.task.TaskExecutor;
 import com.shizhefei.task.TaskHelper;
-import com.shizhefei.utils.MVCLogUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,11 +30,10 @@ class SimpleTaskHelper<BASE_DATA> implements RequestHandle {
     private <DATA extends BASE_DATA> RequestHandle executeImp(Object task, ICallback<DATA> callBack) {
         ProxyCallBack<DATA, BASE_DATA> proxyCallBack = new ProxyCallBack<>(task, callBack, taskImps);
         TaskExecutor<DATA> taskExecutor;
-        LogCallback<DATA> callback = new LogCallback<>(proxyCallBack);
         if (task instanceof ITask) {
-            taskExecutor = TaskHelper.createExecutorWithoutLog((ITask<DATA>) task, callback);
+            taskExecutor = TaskHelper.createExecutor((ITask<DATA>) task, proxyCallBack);
         } else {
-            taskExecutor = TaskHelper.createExecutorWithoutLog((IAsyncTask<DATA>) task, callback);
+            taskExecutor = TaskHelper.createExecutor((IAsyncTask<DATA>) task, proxyCallBack);
         }
         taskImps.put(proxyCallBack, taskExecutor);
         taskExecutor.execute();
@@ -100,40 +98,6 @@ class SimpleTaskHelper<BASE_DATA> implements RequestHandle {
                 callback.onPostExecute(task, code, exception, data);
             }
             taskImps.remove(this);
-        }
-    }
-
-    private static class LogCallback<DATA> implements ICallback<DATA> {
-        private ICallback<DATA> callback;
-
-        public LogCallback(ICallback<DATA> callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        public void onPreExecute(Object task) {
-            if (callback != null) {
-                callback.onPreExecute(task);
-            }
-        }
-
-        @Override
-        public void onProgress(Object task, int percent, long current, long total, Object extraData) {
-            if (callback != null) {
-                callback.onProgress(task, percent, current, total, extraData);
-            }
-        }
-
-        @Override
-        public void onPostExecute(Object task, Code code, Exception exception, DATA data) {
-            if (exception == null) {
-                MVCLogUtil.d("{} task={} code={} data={}", "过程结果", task, code, data);
-            } else {
-                MVCLogUtil.e("{} task={} code={} exception={}", "过程结果", task, code, exception);
-            }
-            if (callback != null) {
-                callback.onPostExecute(task, code, exception, data);
-            }
         }
     }
 }

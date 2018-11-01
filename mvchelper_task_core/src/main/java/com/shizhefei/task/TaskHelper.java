@@ -6,7 +6,6 @@ import com.shizhefei.mvc.IAsyncDataSource;
 import com.shizhefei.mvc.IDataSource;
 import com.shizhefei.mvc.RequestHandle;
 import com.shizhefei.task.imp.MemoryCacheStore;
-import com.shizhefei.utils.MVCLogUtil;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -48,9 +47,10 @@ public class TaskHelper<BASE_DATA> implements RequestHandle {
 
     /**
      * 提供设置执行ITask的线程池Executor
+     *
      * @param executor
      */
-    public void setThreadExecutor(Executor executor){
+    public void setThreadExecutor(Executor executor) {
         this.executor = executor;
     }
 
@@ -126,7 +126,7 @@ public class TaskHelper<BASE_DATA> implements RequestHandle {
         TaskHandle requestHandle = loadCache(cacheConfig, task, callBack);
         if (requestHandle == null) {
             MultiTaskBindProxyCallBack<DATA, BASE_DATA> multiTaskBindProxyCallBack = new MultiTaskBindProxyCallBack<>(cacheConfig, task, callBack, registerCallBacks, taskImps, cacheStore);
-            ICallback<DATA> callback = new LogCallback<>(multiTaskBindProxyCallBack);
+            ICallback<DATA> callback = multiTaskBindProxyCallBack;
             TaskExecutor<DATA> taskExecutor;
             if (task instanceof IDataSource) {
                 taskExecutor = TaskExecutors.create((IDataSource<DATA>) task, isExeRefresh, callback, executor);
@@ -368,26 +368,18 @@ public class TaskHelper<BASE_DATA> implements RequestHandle {
     }
 
     public static <DATA> TaskExecutor<DATA> createExecutor(IDataSource<DATA> dataSource, boolean isExeRefresh, ICallback<DATA> callback) {
-        return TaskExecutors.create(dataSource, isExeRefresh, new LogCallback<>(callback));
+        return TaskExecutors.create(dataSource, isExeRefresh, callback);
     }
 
     public static <DATA> TaskExecutor<DATA> createExecutor(IAsyncDataSource<DATA> dataSource, boolean isExeRefresh, ICallback<DATA> callback) {
-        return TaskExecutors.create(dataSource, isExeRefresh, new LogCallback<>(callback));
+        return TaskExecutors.create(dataSource, isExeRefresh, callback);
     }
 
     public static <DATA> TaskExecutor<DATA> createExecutor(ITask<DATA> task, ICallback<DATA> callback) {
-        return TaskExecutors.create(task, new LogCallback<>(callback));
-    }
-
-    public static <DATA> TaskExecutor<DATA> createExecutor(IAsyncTask<DATA> task, ICallback<DATA> callback) {
-        return TaskExecutors.create(task, new LogCallback<>(callback));
-    }
-
-    public static <DATA> TaskExecutor<DATA> createExecutorWithoutLog(ITask<DATA> task, ICallback<DATA> callback) {
         return TaskExecutors.create(task, callback);
     }
 
-    public static <DATA> TaskExecutor<DATA> createExecutorWithoutLog(IAsyncTask<DATA> task, ICallback<DATA> callback) {
+    public static <DATA> TaskExecutor<DATA> createExecutor(IAsyncTask<DATA> task, ICallback<DATA> callback) {
         return TaskExecutors.create(task, callback);
     }
 
@@ -398,39 +390,4 @@ public class TaskHelper<BASE_DATA> implements RequestHandle {
     public static <DATA> TaskExecutor<DATA> create(ITask<DATA> task, ICallback<DATA> callback, Executor executor) {
         return TaskExecutors.create(task, callback, executor);
     }
-
-    private static class LogCallback<DATA> implements ICallback<DATA> {
-        private ICallback<DATA> callback;
-
-        public LogCallback(ICallback<DATA> callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        public void onPreExecute(Object task) {
-            if (callback != null) {
-                callback.onPreExecute(task);
-            }
-        }
-
-        @Override
-        public void onProgress(Object task, int percent, long current, long total, Object extraData) {
-            if (callback != null) {
-                callback.onProgress(task, percent, current, total, extraData);
-            }
-        }
-
-        @Override
-        public void onPostExecute(Object task, Code code, Exception exception, DATA data) {
-            if (exception == null) {
-                MVCLogUtil.d("{} task={} code={}  data={}", "执行结果", task, code, data);
-            } else {
-                MVCLogUtil.e(exception, "{} task={} code={} data={}", "执行结果", task, code, data);
-            }
-            if (callback != null) {
-                callback.onPostExecute(task, code, exception, data);
-            }
-        }
-    }
-
 }
