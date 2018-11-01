@@ -6,10 +6,14 @@ import android.util.Log;
  * Created by luckyjayce on 2017/7/21.
  */
 
-public class MVCLogUtil {
-    public static boolean debug = true;
+public class TaskLogUtil {
+    private static boolean debug = false;
     private static final String matchText = "{}";
-    private static final String TAG = "MVCHelper";
+    private static final String TAG = "TaskLogUtil";
+
+    public static void setDebug(boolean debug) {
+        TaskLogUtil.debug = debug;
+    }
 
     public static void d(String text, Object... args) {
         if (debug) {

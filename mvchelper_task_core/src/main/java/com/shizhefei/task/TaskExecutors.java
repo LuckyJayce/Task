@@ -8,6 +8,7 @@ import com.shizhefei.mvc.IDataSource;
 import com.shizhefei.mvc.ProgressSender;
 import com.shizhefei.mvc.RequestHandle;
 import com.shizhefei.mvc.ResponseSender;
+import com.shizhefei.utils.TaskLogUtil;
 
 import java.util.concurrent.Executor;
 
@@ -338,7 +339,7 @@ class TaskExecutors {
         //callback 和 realTask 只在主线程调用
         private ICallback<DATA> callback;
         private Object realTask;
-        private boolean isRunning;
+        private volatile boolean isRunning;
 
         public TaskHasCallbackResponseSender() {
             handler = new Handler(Looper.getMainLooper());
@@ -443,6 +444,13 @@ class TaskExecutors {
                 return;
             }
             isRunning = false;
+
+            if (exception == null) {
+                TaskLogUtil.d("{} task={} code={} data={}", "执行结果", realTask, code, data);
+            } else {
+                TaskLogUtil.e("{} task={} code={} exception={}", "执行结果", realTask, code, exception);
+            }
+
             ICallback<DATA> c = callback;
             if (c != null) {
                 c.onPostExecute(realTask, code, exception, data);
