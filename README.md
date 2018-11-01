@@ -100,7 +100,7 @@ compile 'com.shizhefei:MVCHelper-OkHttp:1.4.0'
 
 ![image](raw/Task.png)  
 
-**【1】 ITask ：后台Task，不需要自己开线程，execute的方法在后台执行可以执行超时任务**
+#### 【1】 ITask ：后台Task，不需要自己开线程，execute的方法在后台执行可以执行超时任务
 
 ```
 public interface ITask<DATA> extends ISuperTask<DATA> {
@@ -153,7 +153,7 @@ public class DownloadSyncTask implements ITask<String> {
 }
 ```
 
-**【2】IAsyncTask 异步Task，需要自己开线程异步操作，execute的方法在主线程执行，不能执行超时任务**
+#### 【2】IAsyncTask 异步Task，需要自己开线程异步操作，execute的方法在主线程执行，不能执行超时任务
 
 ```
 public interface IAsyncTask<DATA> extends ISuperTask<DATA> {
@@ -196,7 +196,7 @@ public class GetDetail implements IAsyncTask<Book> {
 }
 ```
 
-**【3】IDataSource ， IAsyncDataSource 和ITask ， IAsyncTask 类似，用于列表请求：**
+#### 【3】IDataSource ， IAsyncDataSource 和ITask ， IAsyncTask 类似，用于列表请求
 
 ​           使用详情参考：https://github.com/LuckyJayce/MVCHelper 项目
 
