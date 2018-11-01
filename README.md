@@ -1,6 +1,8 @@
 # Task #
 
-该类库的用途：
+该类库的用途：将执行过程抽象成Task
+
+
 
 **【1】抽象性，面向接口编程，实现Task接口即可，所有执行过程都可以描述为一个task**
 
@@ -28,7 +30,7 @@
 |Observable是源源不断的相同类型流数据传递| task 有单独的进度通知和结束，实现进度比较容易 |
 |通过Observable操作符进行组合，操作符逻辑都在Observable| 有单独提供Tasks类对个Task组合，Task只是接口 |
 |Observable是流事件上个Observable会继续影响下个Observable| Task执行完成才会继续执行下个Task |
-|Observable既可以是后期使用的时候指定线程| ITask和IAsyncTask直接区主线程执行还是后台执行，不用在使用的时候设置线程，当然使用的时候也提供了设置线程的方法 |
+|Observable调用时指定线程| ITask和IAsyncTask事先指定主线程执行还是后台执行，不用在调用时指定线程，当然也提供了设置线程的方法 |
 
 Download sample [Apk](https://github.com/LuckyJayce/MVCHelper/blob/master/raw/MVCHelper_Demo.apk?raw=true)  
 
