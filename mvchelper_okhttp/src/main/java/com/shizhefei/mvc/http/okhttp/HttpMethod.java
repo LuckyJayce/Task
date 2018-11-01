@@ -44,7 +44,7 @@ public abstract class HttpMethod<METHOD extends HttpMethod> extends AbsHttpMetho
 
     private OkHttpClient client;
 
-    protected abstract Request.Builder buildRequset(String url, Map<String, Object> params);
+    protected abstract Request.Builder buildRequest(String url, Map<String, Object> params);
 
     /**
      * 执行异步请求，执行的结果会自动调用sender的sender.sendData,执行失败或者出现异常会调用sender.sendError
@@ -95,7 +95,7 @@ public abstract class HttpMethod<METHOD extends HttpMethod> extends AbsHttpMetho
 
 
     private Request buildRequest() {
-        Request.Builder requestBuilder = buildRequset(getUrl(), getParams());
+        Request.Builder requestBuilder = buildRequest(getUrl(), getParams());
         Map<String, String> headers = getHeaders();
         for (Entry<String, String> entry : headers.entrySet()) {
             requestBuilder.header(entry.getKey(), entry.getValue());

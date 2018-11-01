@@ -21,7 +21,7 @@ public class GetMethod extends HttpMethod<GetMethod> {
     }
 
     @Override
-    protected Request.Builder buildRequset(String url, Map<String, Object> params) {
+    protected Request.Builder buildRequest(String url, Map<String, Object> params) {
         url = new UrlBuilder(url).params(params).build();
         return new Request.Builder().url(url).get();
     }

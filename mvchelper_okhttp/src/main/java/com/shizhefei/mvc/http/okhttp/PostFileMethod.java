@@ -60,7 +60,7 @@ public class PostFileMethod extends HttpMethod<PostFileMethod> {
     }
 
     @Override
-    protected Request.Builder buildRequset(String url, Map<String, Object> params) {
+    protected Request.Builder buildRequest(String url, Map<String, Object> params) {
         MultipartBody.Builder builder = new MultipartBody.Builder();
         if (params != null) {
             for (Entry<String, ?> entry : params.entrySet()) {

@@ -22,7 +22,7 @@ public class PostMethod extends HttpMethod<PostMethod> {
 	}
 
 	@Override
-	protected Request.Builder buildRequset(String url, Map<String, Object> params) {
+	protected Request.Builder buildRequest(String url, Map<String, Object> params) {
 		FormBody.Builder builder = new FormBody.Builder();
 		if (params != null) {
 			for (Entry<String, ?> entry : params.entrySet()) {
