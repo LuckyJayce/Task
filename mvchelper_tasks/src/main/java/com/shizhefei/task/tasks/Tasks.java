@@ -7,6 +7,9 @@ import com.shizhefei.task.Code;
 import com.shizhefei.task.IAsyncTask;
 import com.shizhefei.task.ICallback;
 import com.shizhefei.task.ITask;
+import com.shizhefei.task.function.Action0;
+import com.shizhefei.task.function.Action1;
+import com.shizhefei.task.function.Actions;
 import com.shizhefei.task.function.Func0;
 import com.shizhefei.task.function.Func1;
 import com.shizhefei.task.function.Func2;
@@ -230,6 +233,24 @@ public class Tasks {
         return new TimeoutLinkTask<>(task, timeout);
     }
 
+    public static <D> LinkTask<D> doOnCancel(LinkTask<D> task, Action0 onCancel) {
+        Action1<Exception> onError = Actions.empty();
+        Action1<D> completedAction = Actions.empty();
+        return donOnCallback(task, new WrapCallback<>(completedAction, onError, onCancel));
+    }
+
+    public static <D> LinkTask<D> doOnCompleted(LinkTask<D> task, Action1<D> completedAction) {
+        Action1<Exception> onError = Actions.empty();
+        Action0 onCancel = Actions.empty();
+        return donOnCallback(task, new WrapCallback<>(completedAction, onError, onCancel));
+    }
+
+    public static <D> LinkTask<D> doOnError(LinkTask<D> task, Action1<Exception> onError) {
+        Action0 onCancel = Actions.empty();
+        Action1<D> completedAction = Actions.empty();
+        return donOnCallback(task, new WrapCallback<>(completedAction, onError, onCancel));
+    }
+
     /**
      * 将task和callback组成一个新的task
      *
@@ -238,7 +259,7 @@ public class Tasks {
      * @param <DATA>
      * @return
      */
-    public static <DATA> IAsyncTask<DATA> wrapCallback(final IAsyncTask<DATA> task, final ICallback<DATA> callback) {
+    public static <DATA> LinkTask<DATA> donOnCallback(IAsyncTask<DATA> task, ICallback<DATA> callback) {
         return new WrapCallbackLinkTask<>(task, callback);
     }
 }

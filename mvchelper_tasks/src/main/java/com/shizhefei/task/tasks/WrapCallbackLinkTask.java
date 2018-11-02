@@ -35,6 +35,7 @@ class WrapCallbackLinkTask<D> extends LinkTask<D> {
             public void onPostExecute(Object task, Code code, Exception exception, D data) {
                 super.onPostExecute(task, code, exception, data);
                 callback.onPostExecute(task, code, exception, data);
+                //执行结束置空，避免WrapCallbackLinkTask被持有导致callback不能及时释放
                 callback = null;
                 realTask = null;
             }

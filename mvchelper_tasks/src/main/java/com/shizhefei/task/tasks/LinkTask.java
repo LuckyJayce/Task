@@ -3,6 +3,9 @@ package com.shizhefei.task.tasks;
 
 import com.shizhefei.task.Code;
 import com.shizhefei.task.IAsyncTask;
+import com.shizhefei.task.ICallback;
+import com.shizhefei.task.function.Action0;
+import com.shizhefei.task.function.Action1;
 import com.shizhefei.task.function.Func1;
 import com.shizhefei.task.function.Func2;
 import com.shizhefei.task.function.Func3;
@@ -97,6 +100,22 @@ public abstract class LinkTask<D> implements IAsyncTask<D> {
 
     public <DATA> LinkTask<DATA> map(Func1<D, DATA> func1) {
         return Tasks.map(this, func1);
+    }
+
+    public LinkTask<D> doOnCancel(Action0 onCancel) {
+        return Tasks.doOnCancel(this, onCancel);
+    }
+
+    public LinkTask<D> doOnCompleted(Action1<D> completedAction) {
+        return Tasks.doOnCompleted(this, completedAction);
+    }
+
+    public LinkTask<D> doOnError(Action1<Exception> onError) {
+        return Tasks.doOnError(this, onError);
+    }
+
+    public LinkTask<D> doOnCallback(ICallback<D> callback) {
+        return Tasks.donOnCallback(this, callback);
     }
 
     //

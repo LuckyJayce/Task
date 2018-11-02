@@ -3,6 +3,7 @@ package com.shizhefei.task.demo.controllers;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import com.shizhefei.task.demo.models.entities.HomeConfigData;
 import com.shizhefei.task.demo.models.entities.HomeData;
 import com.shizhefei.task.demo.models.entities.HomeSaleData;
 import com.shizhefei.task.demo.view.TaskSettingView;
+import com.shizhefei.task.function.Action1;
 import com.shizhefei.task.function.Func1;
 import com.shizhefei.task.function.Func2;
 import com.shizhefei.task.imp.SimpleCallback;
@@ -111,17 +113,28 @@ public class OPActivity extends AppCompatActivity {
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
-            return Tasks.create(getConfigView.buildTask(new HomeConfigData())).delay(delay).concatMap(new Func1<HomeConfigData, IAsyncTask<HomeData>>() {
-                @Override
-                public IAsyncTask<HomeData> call(HomeConfigData data) throws Exception {
-                    return Tasks.combine(getAdView.buildTask(new HomeAdData()), getSaleView.buildTask(new HomeSaleData()), new Func2<HomeAdData, HomeSaleData, HomeData>() {
+            return Tasks.create(getConfigView.buildTask(new HomeConfigData()))
+                    .doOnCompleted(new Action1<HomeConfigData>() {
                         @Override
-                        public HomeData call(HomeAdData homeAdData, HomeSaleData homeSaleData) throws Exception {
-                            return new HomeData(homeAdData, homeSaleData);
+                        public void call(HomeConfigData homeConfigData) {
+                            Log.d("OPActivity", "doOnCompleted " + homeConfigData);
                         }
-                    });
-                }
-            }).concatWith(reportView.buildTask("success")).retry(retry).timeout(timeout);
+                    }).doOnError(new Action1<Exception>() {
+                        @Override
+                        public void call(Exception e) {
+                            Log.e("OPActivity", "doOnError " + e);
+                        }
+                    }).delay(delay).concatMap(new Func1<HomeConfigData, IAsyncTask<HomeData>>() {
+                        @Override
+                        public IAsyncTask<HomeData> call(HomeConfigData data) throws Exception {
+                            return Tasks.combine(getAdView.buildTask(new HomeAdData()), getSaleView.buildTask(new HomeSaleData()), new Func2<HomeAdData, HomeSaleData, HomeData>() {
+                                @Override
+                                public HomeData call(HomeAdData homeAdData, HomeSaleData homeSaleData) throws Exception {
+                                    return new HomeData(homeAdData, homeSaleData);
+                                }
+                            });
+                        }
+                    }).concatWith(reportView.buildTask("success")).retry(retry).timeout(timeout);
         }
     }
 

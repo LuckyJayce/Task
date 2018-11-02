@@ -8,7 +8,7 @@ import com.shizhefei.task.IAsyncTask;
  * Created by luckyjayce on 2017/4/16.
  */
 
-public abstract class ProxyTask<DATA> implements IAsyncTask<DATA> {
+public abstract class ProxyLinkTask<DATA> extends LinkTask<DATA> {
 
     @Override
     public final RequestHandle execute(ResponseSender<DATA> sender) throws Exception {

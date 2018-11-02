@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.shizhefei.mvc.ProgressSender;
 import com.shizhefei.task.Code;
-import com.shizhefei.task.IAsyncTask;
 import com.shizhefei.task.ITask;
 import com.shizhefei.task.demo.R;
 import com.shizhefei.task.imp.SimpleCallback;
@@ -73,7 +72,7 @@ public class TaskSettingView extends FrameLayout {
         nameTextView.setText(taskName);
     }
 
-    public <DATA> IAsyncTask<DATA> buildTask(final DATA data) {
+    public <DATA> LinkTask<DATA> buildTask(final DATA data) {
         final String exceptionName = exceptionEditText.getText().toString();
         int time = 0;
         try {
@@ -103,7 +102,7 @@ public class TaskSettingView extends FrameLayout {
                 return taskName;
             }
         });
-        return Tasks.wrapCallback(task, new UIUpdateCallback<DATA>());
+        return Tasks.donOnCallback(task, new UIUpdateCallback<DATA>());
     }
 
     private class UIUpdateCallback<DATA> extends SimpleCallback<DATA> {
