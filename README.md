@@ -44,7 +44,7 @@ https://github.com/LuckyJayce/Task/releases
 
 ```
 //TAsk核心类库
-compile 'com.shizhefei:MVCHelper-Task-Core:1.0.0'
+compile 'com.shizhefei:task-core:1.0.0'
 ```
 
 ## 2.可选：
@@ -61,14 +61,14 @@ IAsyncTask<User> task = Tasks
 引入方式：
 
     //Task操作符类库
-    compile 'com.shizhefei:MVCHelper-Tasks:1.0.0'
+    compile 'com.shizhefei:task-tasks:1.0.0'
 
 **【2】  TestCase ：Task测试用例类库**
 ​     用于直接单独测试写好的task，提供简化的界面执行操作
 
 ```
 //Task测试用例类库
-compile 'com.shizhefei:MVCHelper-TestCase:1.0.0'
+compile 'com.shizhefei:task-testcase:1.0.0'
 ```
 
 **【3】   mvchelper_okhttp：简化请求方便使用**
@@ -95,7 +95,7 @@ method.executeAsync(sender, new ResponseParser<User>() {
 
 ```
 //Task的okhttp简化类库
-compile 'com.shizhefei:MVCHelper-OkHttp:1.0.0'
+compile 'com.shizhefei:task-okhttp:1.0.0'
 ```
 
 ## 结构
