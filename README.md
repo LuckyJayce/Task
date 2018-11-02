@@ -32,7 +32,7 @@
 |Observable是流事件上个Observable会继续影响下个Observable| Task执行完成才会继续执行下个Task |
 |Observable调用时指定线程| ITask和IAsyncTask事先指定主线程执行还是后台执行，不用在调用时指定线程，当然也提供了设置线程的方法 |
 
-Download sample [Apk](https://github.com/LuckyJayce/MVCHelper/blob/master/raw/MVCHelper_Demo.apk?raw=true)  
+Download sample [Apk](raw/Task.apk?raw=true)  
 
 ### 历史版本和更新信息  
 
