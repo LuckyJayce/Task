@@ -3,14 +3,10 @@ package com.shizhefei.task.tasks;
 
 import com.shizhefei.mvc.IAsyncDataSource;
 import com.shizhefei.mvc.IDataSource;
-import com.shizhefei.mvc.RequestHandle;
-import com.shizhefei.mvc.ResponseSender;
 import com.shizhefei.task.Code;
 import com.shizhefei.task.IAsyncTask;
 import com.shizhefei.task.ICallback;
 import com.shizhefei.task.ITask;
-import com.shizhefei.task.ResponseSenderCallback;
-import com.shizhefei.task.TaskHelper;
 import com.shizhefei.task.function.Func0;
 import com.shizhefei.task.function.Func1;
 import com.shizhefei.task.function.Func2;
@@ -243,29 +239,6 @@ public class Tasks {
      * @return
      */
     public static <DATA> IAsyncTask<DATA> wrapCallback(final IAsyncTask<DATA> task, final ICallback<DATA> callback) {
-        return new IAsyncTask<DATA>() {
-            @Override
-            public RequestHandle execute(ResponseSender<DATA> sender) throws Exception {
-                return new TaskHelper<>().execute(task, new ResponseSenderCallback<DATA>(sender) {
-                    @Override
-                    public void onPreExecute(Object task) {
-                        super.onPreExecute(task);
-                        callback.onPreExecute(task);
-                    }
-
-                    @Override
-                    public void onProgress(Object task, int percent, long current, long total, Object extraData) {
-                        super.onProgress(task, percent, current, total, extraData);
-                        callback.onProgress(task, percent, current, total, extraData);
-                    }
-
-                    @Override
-                    public void onPostExecute(Object task, Code code, Exception exception, DATA data) {
-                        super.onPostExecute(task, code, exception, data);
-                        callback.onPostExecute(task, code, exception, data);
-                    }
-                });
-            }
-        };
+        return new WrapCallbackLinkTask<>(task, callback);
     }
 }
