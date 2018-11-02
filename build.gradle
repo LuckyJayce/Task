@@ -1,5 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-apply from: "config.gradle"
+apply from: "config/config.gradle"
 buildscript {
     repositories {
         mavenCentral()
@@ -29,8 +29,8 @@ allprojects {
 }
 
 ext {
-    VERSION_NAME = '1.4.0'
-    VERSION_CODE = 17
+    VERSION_NAME = '0.0.1'
+    VERSION_CODE = 1
 }
 
 
