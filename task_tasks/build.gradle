@@ -4,10 +4,8 @@ apply from: rootProject.file("library.gradle")
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':mvchelper_task_core')
-
-    compileOnly rootProject.ext.dependencies["okhttp"]
-    compileOnly rootProject.ext.dependencies["okio"]
+    implementation project(':task_core')
+    compileOnly rootProject.ext.dependencies["rxjava"]
 }
 
 //添加
@@ -15,8 +13,8 @@ publish {
     repoName = 'maven'
     userOrg = 'luckyjayce'//bintray.com用户名
     groupId = 'com.shizhefei'//jcenter上的路径
-    artifactId = 'MVCHelper-OkHttp'//项目名称
+    artifactId = 'MVCHelper-Tasks'//项目名称
     publishVersion = rootProject.ext.VERSION_NAME//版本号
-    desc = 'Task类库 下的okhttp封装类库'//描述
+    desc = 'Task类库 下的Tasks操作符类库'//描述
     website = 'https://github.com/LuckyJayce/Task'//网站
 }

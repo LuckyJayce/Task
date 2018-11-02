@@ -48,10 +48,10 @@ dependencies {
     //    compile 'com.shizhefei:MVCHelper-Pullrefreh:1.0.2'
     //    compile 'com.shizhefei:MVCHelper-SwipeRefresh:1.0.2'
     //    compile 'com.shizhefei:MVCHelper-UltraRefresh:1.0.2'
-    implementation project(':mvchelper_task_core')
-    implementation project(':mvchelper_tasks')
-    implementation project(':mvchelper_testcase')
-    implementation project(':mvchelper_okhttp')
+    implementation project(':task_core')
+    implementation project(':task_tasks')
+    implementation project(':task_testcase')
+    implementation project(':task_okhttp')
 
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     debugImplementation rootProject.ext.dependencies["leakcanary-android"]
