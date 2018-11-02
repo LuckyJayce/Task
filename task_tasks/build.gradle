@@ -1,6 +1,6 @@
 apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'com.android.library'
-apply from: rootProject.file("config/library.gradle")
+apply from: rootProject.file("buildsystem/library.gradle")
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
