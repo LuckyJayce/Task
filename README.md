@@ -277,7 +277,7 @@ taskHelper.unRegisterCallBack(allcallback);
 
 
 ## 操作符
-
+借鉴于RxJava，包含比较常用的操作符
 **【1】async 将ITask 转化为 IAsyncTask**
 
 ```
