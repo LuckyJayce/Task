@@ -1,8 +1,9 @@
 package com.shizhefei.mvc.http.okhttp;
 
 
+import com.shizhefei.mvc.http.UrlBuilder;
+
 import java.util.Map;
-import java.util.Map.Entry;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -10,7 +11,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 
-public class DeleteMethod extends HttpMethod<DeleteMethod> {
+public class DeleteMethod extends HttpWithBodyMethod<DeleteMethod> {
     public DeleteMethod() {
     }
 
@@ -23,14 +24,17 @@ public class DeleteMethod extends HttpMethod<DeleteMethod> {
     }
 
     @Override
-    protected Request.Builder buildRequest(String url, Map<String, Object> params) {
+    protected Request.Builder buildRequest() {
+        Map<String, Object> bodyParams = getBodyParams();
+        Map<String, Object> queryParams = getQueryParams();
+        String url = new UrlBuilder(getUrl()).params(queryParams).build();
         FormBody.Builder builder = new FormBody.Builder();
-        if (params != null) {
-            for (Entry<String, ?> entry : params.entrySet()) {
+        if (bodyParams != null) {
+            for (Map.Entry<String, ?> entry : bodyParams.entrySet()) {
                 builder.add(entry.getKey(), String.valueOf(entry.getValue()));
             }
         }
         RequestBody formBody = builder.build();
-        return new Request.Builder().url(url).delete(formBody);
+        return new Request.Builder().url(url).put(formBody);
     }
 }

@@ -44,7 +44,7 @@ public abstract class HttpMethod<METHOD extends HttpMethod> extends AbsHttpMetho
 
     private OkHttpClient client;
 
-    protected abstract Request.Builder buildRequest(String url, Map<String, Object> params);
+    protected abstract Request.Builder buildRequest();
 
     /**
      * 执行异步请求，执行的结果会自动调用sender的sender.sendData,执行失败或者出现异常会调用sender.sendError
@@ -64,7 +64,7 @@ public abstract class HttpMethod<METHOD extends HttpMethod> extends AbsHttpMetho
      */
     @Override
     public final void executeAsync(Callback callback) {
-        Request request = buildRequest();
+        Request request = buildHttpRequest();
         call = client.newCall(request);
         call.enqueue(callback);
     }
@@ -88,14 +88,14 @@ public abstract class HttpMethod<METHOD extends HttpMethod> extends AbsHttpMetho
      * @throws Exception
      */
     public final Response executeSync() throws Exception {
-        Request request = buildRequest();
+        Request request = buildHttpRequest();
         call = client.newCall(request);
         return call.execute();
     }
 
 
-    private Request buildRequest() {
-        Request.Builder requestBuilder = buildRequest(getUrl(), getParams());
+    private Request buildHttpRequest() {
+        Request.Builder requestBuilder = buildRequest();
         Map<String, String> headers = getHeaders();
         for (Entry<String, String> entry : headers.entrySet()) {
             requestBuilder.header(entry.getKey(), entry.getValue());
