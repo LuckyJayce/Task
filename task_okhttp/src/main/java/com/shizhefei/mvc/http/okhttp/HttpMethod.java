@@ -2,9 +2,10 @@ package com.shizhefei.mvc.http.okhttp;
 
 import com.shizhefei.mvc.ResponseSender;
 import com.shizhefei.mvc.http.AbsHttpMethod;
+import com.shizhefei.mvc.http.RestfulUrlBuilder;
+import com.shizhefei.mvc.http.UrlBuilder;
 
 import java.util.Map;
-import java.util.Map.Entry;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -15,6 +16,8 @@ import okhttp3.Response;
 public abstract class HttpMethod<METHOD extends HttpMethod> extends AbsHttpMethod<METHOD, Callback> {
     private static OkHttpClient defaultClient = new OkHttpClient();
     private Call call;
+    private OkHttpClient client;
+    private boolean isRestful;
 
     public HttpMethod() {
 
@@ -42,9 +45,35 @@ public abstract class HttpMethod<METHOD extends HttpMethod> extends AbsHttpMetho
         return this;
     }
 
-    private OkHttpClient client;
+    public boolean isRestful() {
+        return isRestful;
+    }
 
-    protected abstract Request.Builder buildRequest();
+    public METHOD setRestful(boolean restful) {
+        isRestful = restful;
+        return (METHOD) this;
+    }
+
+    protected void appendQueryParams(Request.Builder requestBuilder) {
+        String url;
+        if (isRestful()) {
+            url = new UrlBuilder(getUrl()).params(getQueryParams()).build();
+        } else {
+            url = new RestfulUrlBuilder(getUrl()).params(getQueryParams()).build();
+        }
+        requestBuilder.url(url);
+    }
+
+    protected void appendHeader(Request.Builder requestBuilder) {
+        Map<String, String> headers = getHeaders();
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
+            requestBuilder.header(entry.getKey(), entry.getValue());
+        }
+    }
+
+    protected void appendBody(Request.Builder requestBuilder) {
+
+    }
 
     /**
      * 执行异步请求，执行的结果会自动调用sender的sender.sendData,执行失败或者出现异常会调用sender.sendError
@@ -95,11 +124,10 @@ public abstract class HttpMethod<METHOD extends HttpMethod> extends AbsHttpMetho
 
 
     private Request buildHttpRequest() {
-        Request.Builder requestBuilder = buildRequest();
-        Map<String, String> headers = getHeaders();
-        for (Entry<String, String> entry : headers.entrySet()) {
-            requestBuilder.header(entry.getKey(), entry.getValue());
-        }
+        Request.Builder requestBuilder = new Request.Builder();
+        appendQueryParams(requestBuilder);
+        appendHeader(requestBuilder);
+        appendBody(requestBuilder);
         return requestBuilder.build();
     }
 

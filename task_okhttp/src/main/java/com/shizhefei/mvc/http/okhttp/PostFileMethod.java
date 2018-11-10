@@ -4,7 +4,6 @@ import android.util.Pair;
 
 import com.shizhefei.mvc.ProgressSender;
 import com.shizhefei.mvc.http.MimeUtils;
-import com.shizhefei.mvc.http.UrlBuilder;
 
 import java.io.File;
 import java.util.HashMap;
@@ -29,30 +28,6 @@ public class PostFileMethod extends PostMethod {
 
     public PostFileMethod(OkHttpClient httpClient, String url) {
         super(httpClient, url);
-    }
-
-    @Override
-    protected Request.Builder buildRequest() {
-        String url = new UrlBuilder(getUrl()).params(getQueryParams()).build();
-        Map<String, Object> bodyParams = getBodyParams();
-        MultipartBody.Builder builder = new MultipartBody.Builder();
-        if (bodyParams != null) {
-            for (Map.Entry<String, ?> entry : bodyParams.entrySet()) {
-                builder.addFormDataPart(entry.getKey(), String.valueOf(entry.getValue()));
-            }
-        }
-        if (httpbodys != null) {
-            for (Map.Entry<String, Pair<String, RequestBody>> entry : httpbodys.entrySet()) {
-                String key = entry.getKey();
-                Pair<String, RequestBody> body = entry.getValue();
-                builder.addFormDataPart(key, body.first, body.second);
-            }
-        }
-        RequestBody formBody = builder.build();
-        if (listener != null) {
-            formBody = new CountingRequestBody(formBody, listener);
-        }
-        return new Request.Builder().url(url).post(formBody);
     }
 
     public PostFileMethod addBodyParam(String key, String fileName, RequestBody requestBody) {
@@ -83,4 +58,26 @@ public class PostFileMethod extends PostMethod {
         };
     }
 
+    @Override
+    protected void appendBody(Request.Builder requestBuilder) {
+        Map<String, Object> bodyParams = getBodyParams();
+        MultipartBody.Builder bodyBuilder = new MultipartBody.Builder();
+        if (bodyParams != null) {
+            for (Map.Entry<String, ?> entry : bodyParams.entrySet()) {
+                bodyBuilder.addFormDataPart(entry.getKey(), String.valueOf(entry.getValue()));
+            }
+        }
+        if (httpbodys != null) {
+            for (Map.Entry<String, Pair<String, RequestBody>> entry : httpbodys.entrySet()) {
+                String key = entry.getKey();
+                Pair<String, RequestBody> body = entry.getValue();
+                bodyBuilder.addFormDataPart(key, body.first, body.second);
+            }
+        }
+        RequestBody formBody = bodyBuilder.build();
+        if (listener != null) {
+            formBody = new CountingRequestBody(formBody, listener);
+        }
+        requestBuilder.post(formBody);
+    }
 }

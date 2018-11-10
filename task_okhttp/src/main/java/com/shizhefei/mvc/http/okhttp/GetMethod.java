@@ -1,7 +1,5 @@
 package com.shizhefei.mvc.http.okhttp;
 
-import com.shizhefei.mvc.http.UrlBuilder;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -19,8 +17,7 @@ public class GetMethod extends HttpMethod<GetMethod> {
     }
 
     @Override
-    protected Request.Builder buildRequest() {
-        String url = new UrlBuilder(getUrl()).params(getQueryParams()).build();
-        return new Request.Builder().url(url).get();
+    protected void appendBody(Request.Builder requestBuilder) {
+        requestBuilder.get();
     }
 }
