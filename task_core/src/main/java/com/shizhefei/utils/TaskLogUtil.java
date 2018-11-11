@@ -15,13 +15,6 @@ public class TaskLogUtil {
         TaskLogUtil.debug = debug;
     }
 
-    public static void d(String text, Object... args) {
-        if (debug) {
-            StringBuilder stringBuilder = replace(text, args);
-            Log.d(TAG, stringBuilder.toString());
-        }
-    }
-
     private static StringBuilder replace(String text, Object... args) {
         StringBuilder stringBuilder = new StringBuilder(text);
         int index = 0;
@@ -50,10 +43,10 @@ public class TaskLogUtil {
         }
     }
 
-    public static void e(String text, Object... args) {
+    public static void d(String text, Object... args) {
         if (debug) {
             StringBuilder stringBuilder = replace(text, args);
-            Log.e(TAG, stringBuilder.toString());
+            Log.d(TAG, stringBuilder.toString());
         }
     }
 
