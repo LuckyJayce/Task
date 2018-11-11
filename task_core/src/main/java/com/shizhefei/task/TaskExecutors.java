@@ -448,7 +448,7 @@ class TaskExecutors {
             if (exception == null) {
                 TaskLogUtil.d("{} task={} code={} data={}", "执行结果", realTask, code, data);
             } else {
-                TaskLogUtil.e("{} task={} code={} exception={}", "执行结果", realTask, code, exception);
+                TaskLogUtil.e(exception, "{} task={} code={} exception={}", "执行结果", realTask, code);
             }
 
             ICallback<DATA> c = callback;

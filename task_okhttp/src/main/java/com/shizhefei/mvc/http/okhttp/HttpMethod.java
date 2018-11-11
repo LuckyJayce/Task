@@ -57,9 +57,9 @@ public abstract class HttpMethod<METHOD extends HttpMethod> extends AbsHttpMetho
     protected void appendQueryParams(Request.Builder requestBuilder) {
         String url;
         if (isRestful()) {
-            url = new UrlBuilder(getUrl()).params(getQueryParams()).build();
-        } else {
             url = new RestfulUrlBuilder(getUrl()).params(getQueryParams()).build();
+        } else {
+            url = new UrlBuilder(getUrl()).params(getQueryParams()).build();
         }
         requestBuilder.url(url);
     }
