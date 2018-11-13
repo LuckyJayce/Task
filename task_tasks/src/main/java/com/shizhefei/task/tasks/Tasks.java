@@ -16,6 +16,8 @@ import com.shizhefei.task.function.Func2;
 import com.shizhefei.task.function.Func3;
 import com.shizhefei.task.function.LogFuncs;
 
+import java.util.concurrent.Executor;
+
 /**
  * Created by luckyjayce on 2017/4/16.
  */
@@ -31,6 +33,17 @@ public class Tasks {
      */
     public static <DATA> LinkTask<DATA> async(ITask<DATA> task) {
         return new AsyncLinkTask<>(task, true);
+    }
+
+    /**
+     * 将一个同步task转化为异步task
+     *
+     * @param task
+     * @param <DATA>
+     * @return
+     */
+    public static <DATA> LinkTask<DATA> async(ITask<DATA> task, Executor executor) {
+        return new AsyncLinkTask<>(task, true, executor);
     }
 
     /**
