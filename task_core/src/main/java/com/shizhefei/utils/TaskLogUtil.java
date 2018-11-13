@@ -7,7 +7,7 @@ import android.util.Log;
  */
 
 public class TaskLogUtil {
-    private static boolean debug = true;
+    private static boolean debug = false;
     private static final String matchText = "{}";
     private static final String TAG = "TaskLogUtil";
 
