@@ -18,7 +18,8 @@ public abstract class AbsHttpMethod<METHOD extends AbsHttpMethod, CALLBACK> impl
 
     public abstract void executeAsync(CALLBACK callback);
 
-    private Map<String, Object> params = new HashMap<String, Object>();
+    private Map<String, Object> queryParams = new HashMap<String, Object>();
+    private Map<String, Object> pathParams = new HashMap<String, Object>();
     private Map<String, String> headers = new HashMap<String, String>();
 
     public String getUrl() {
@@ -30,7 +31,11 @@ public abstract class AbsHttpMethod<METHOD extends AbsHttpMethod, CALLBACK> impl
     }
 
     public Map<String, Object> getQueryParams() {
-        return params;
+        return queryParams;
+    }
+
+    public Map<String, Object> getPathParams() {
+        return pathParams;
     }
 
     public Map<String, String> getHeaders() {
@@ -42,38 +47,73 @@ public abstract class AbsHttpMethod<METHOD extends AbsHttpMethod, CALLBACK> impl
         return (METHOD) this;
     }
 
+    public METHOD addPathParam(String key, int value) {
+        pathParams.put(key, String.valueOf(value));
+        return (METHOD) this;
+    }
+
+    public METHOD addPathParam(String key, boolean value) {
+        pathParams.put(key, String.valueOf(value));
+        return (METHOD) this;
+    }
+
+    public METHOD addPathParam(String key, double value) {
+        pathParams.put(key, String.valueOf(value));
+        return (METHOD) this;
+    }
+
+    public METHOD addPathParam(String key, float value) {
+        pathParams.put(key, String.valueOf(value));
+        return (METHOD) this;
+    }
+
+    public METHOD addPathParam(String key, long value) {
+        pathParams.put(key, String.valueOf(value));
+        return (METHOD) this;
+    }
+
+    public METHOD addPathParam(String key, String value) {
+        pathParams.put(key, value);
+        return (METHOD) this;
+    }
+
+    public METHOD addPathParams(Map<String, ?> params) {
+        pathParams.putAll(params);
+        return (METHOD) this;
+    }
+
     public METHOD addQueryParam(String key, int value) {
-        params.put(key, String.valueOf(value));
+        queryParams.put(key, String.valueOf(value));
         return (METHOD) this;
     }
 
     public METHOD addQueryParam(String key, boolean value) {
-        params.put(key, String.valueOf(value));
+        queryParams.put(key, String.valueOf(value));
         return (METHOD) this;
     }
 
     public METHOD addQueryParam(String key, double value) {
-        params.put(key, String.valueOf(value));
+        queryParams.put(key, String.valueOf(value));
         return (METHOD) this;
     }
 
     public METHOD addQueryParam(String key, float value) {
-        params.put(key, String.valueOf(value));
+        queryParams.put(key, String.valueOf(value));
         return (METHOD) this;
     }
 
     public METHOD addQueryParam(String key, long value) {
-        params.put(key, String.valueOf(value));
+        queryParams.put(key, String.valueOf(value));
         return (METHOD) this;
     }
 
     public METHOD addQueryParam(String key, String value) {
-        params.put(key, value);
+        queryParams.put(key, value);
         return (METHOD) this;
     }
 
     public METHOD addQueryParams(Map<String, ?> params) {
-        this.params.putAll(params);
+        queryParams.putAll(params);
         return (METHOD) this;
     }
 }

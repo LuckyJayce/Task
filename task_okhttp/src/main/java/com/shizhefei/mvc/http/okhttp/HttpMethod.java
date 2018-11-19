@@ -17,7 +17,7 @@ public abstract class HttpMethod<METHOD extends HttpMethod> extends AbsHttpMetho
     private static OkHttpClient defaultClient = new OkHttpClient();
     private Call call;
     private OkHttpClient client;
-    private boolean isRestful;
+    private String finalUrl;
 
     public HttpMethod() {
 
@@ -45,23 +45,12 @@ public abstract class HttpMethod<METHOD extends HttpMethod> extends AbsHttpMetho
         return this;
     }
 
-    public boolean isRestful() {
-        return isRestful;
+    protected String appendQueryParams(String handlerUrl) {
+        return new UrlBuilder(handlerUrl).params(getQueryParams()).build();
     }
 
-    public METHOD setRestful(boolean restful) {
-        isRestful = restful;
-        return (METHOD) this;
-    }
-
-    protected void appendQueryParams(Request.Builder requestBuilder) {
-        String url;
-        if (isRestful()) {
-            url = new RestfulUrlBuilder(getUrl()).params(getQueryParams()).build();
-        } else {
-            url = new UrlBuilder(getUrl()).params(getQueryParams()).build();
-        }
-        requestBuilder.url(url);
+    protected String appendPathParams(String handlerUrl) {
+        return new RestfulUrlBuilder(handlerUrl).params(getPathParams()).build();
     }
 
     protected void appendHeader(Request.Builder requestBuilder) {
@@ -83,7 +72,7 @@ public abstract class HttpMethod<METHOD extends HttpMethod> extends AbsHttpMetho
      * @param <DATA>
      */
     public final <DATA> void executeAsync(ResponseSender<DATA> sender, final ResponseParser<DATA> responseParser) {
-        executeAsync(new CallBackParser<DATA>(sender, responseParser));
+        executeAsync(new CallBackParser<>(sender, responseParser));
     }
 
     /**
@@ -122,10 +111,17 @@ public abstract class HttpMethod<METHOD extends HttpMethod> extends AbsHttpMetho
         return call.execute();
     }
 
+    public String getFinalUrl() {
+        return finalUrl;
+    }
 
     private Request buildHttpRequest() {
+        String handlerUrl = getUrl();
         Request.Builder requestBuilder = new Request.Builder();
-        appendQueryParams(requestBuilder);
+        handlerUrl = appendPathParams(handlerUrl);
+        handlerUrl = appendQueryParams(handlerUrl);
+        this.finalUrl = handlerUrl;
+        requestBuilder.url(finalUrl);
         appendHeader(requestBuilder);
         appendBody(requestBuilder);
         return requestBuilder.build();
