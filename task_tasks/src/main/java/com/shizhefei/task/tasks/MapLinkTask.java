@@ -2,8 +2,10 @@ package com.shizhefei.task.tasks;
 
 import com.shizhefei.mvc.RequestHandle;
 import com.shizhefei.mvc.ResponseSender;
+import com.shizhefei.task.Code;
 import com.shizhefei.task.IAsyncTask;
 import com.shizhefei.task.function.Func1;
+import com.shizhefei.task.imp.SimpleCallback;
 
 class MapLinkTask<D, DATA> extends LinkTask<DATA> {
     private final IAsyncTask<D> task;
@@ -16,26 +18,27 @@ class MapLinkTask<D, DATA> extends LinkTask<DATA> {
 
     @Override
     public RequestHandle execute(final ResponseSender<DATA> sender) throws Exception {
-        return task.execute(new ResponseSender<D>() {
+        SimpleTaskHelper<Object> simpleTaskHelper = new SimpleTaskHelper<>();
+        simpleTaskHelper.execute(task, new SimpleCallback<D>() {
             @Override
-            public void sendError(Exception exception) {
-                sender.sendError(exception);
-            }
-
-            @Override
-            public void sendData(D d) {
-                try {
-                    sender.sendData(func1.call(d));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    sender.sendError(e);
+            public void onPostExecute(Object task, Code code, Exception exception, D d) {
+                switch (code) {
+                    case SUCCESS:
+                        try {
+                            sender.sendData(func1.call(d));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            sender.sendError(e);
+                        }
+                        break;
+                    case EXCEPTION:
+                        sender.sendError(exception);
+                        break;
+                    case CANCEL:
+                        break;
                 }
             }
-
-            @Override
-            public void sendProgress(long current, long total, Object extraData) {
-                sender.sendProgress(current, total, extraData);
-            }
         });
+        return simpleTaskHelper;
     }
 }
