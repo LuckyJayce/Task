@@ -1,5 +1,7 @@
 package com.shizhefei.task;
 
+import android.support.annotation.NonNull;
+
 import com.shizhefei.mvc.RequestHandle;
 
 import java.lang.ref.WeakReference;
@@ -60,5 +62,24 @@ public class TaskHandle implements RequestHandle {
             return taskImp.isRunning();
         }
         return false;
+    }
+
+    public Object getTask() {
+        return taskReference.get();
+    }
+
+    public <DATA> void registerCallback(@NonNull ICallback<DATA> callback) {
+        TaskHelper.MultiTaskBindProxyCallBack taskImp = taskImpWeakReference.get();
+        if (taskImp != null) {
+            callback.onPreExecute(callback);
+            taskImp.addCallBack(callback, callback);
+        }
+    }
+
+    public <DATA> void unregisterCallback(@NonNull ICallback<DATA> callback) {
+        TaskHelper.MultiTaskBindProxyCallBack taskImp = taskImpWeakReference.get();
+        if (taskImp != null) {
+            taskImp.cancel(callback);
+        }
     }
 }

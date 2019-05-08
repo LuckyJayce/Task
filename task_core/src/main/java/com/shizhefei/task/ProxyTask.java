@@ -14,5 +14,5 @@ public abstract class ProxyTask<DATA> implements IAsyncTask<DATA> {
         return getTask().execute(sender);
     }
 
-    protected abstract IAsyncTask<DATA> getTask();
+    protected abstract IAsyncTask<DATA> getTask() throws Exception;
 }

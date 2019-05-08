@@ -3,10 +3,10 @@ package com.shizhefei.task.tasks;
 import com.shizhefei.mvc.RequestHandle;
 import com.shizhefei.mvc.ResponseSender;
 
-class DataLinkTask<DATA> extends LinkTask<DATA> {
-    private DATA data;
+class DataLinkTask<DATA, CD extends DATA> extends LinkTask<DATA> {
+    private CD data;
 
-    public DataLinkTask(DATA data) {
+    public DataLinkTask(CD data) {
         this.data = data;
     }
 

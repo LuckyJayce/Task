@@ -16,6 +16,7 @@ import com.shizhefei.task.function.Func2;
 import com.shizhefei.task.function.Func3;
 import com.shizhefei.task.function.LogFuncs;
 
+import java.util.List;
 import java.util.concurrent.Executor;
 
 /**
@@ -68,7 +69,7 @@ public class Tasks {
         return new MapLinkTask<>(task, func1);
     }
 
-    public static <DATA> LinkTask<DATA> just(DATA data) {
+    public static <DATA, CD extends DATA> LinkTask<DATA> just(CD data) {
         return new DataLinkTask<>(data);
     }
 
@@ -181,6 +182,16 @@ public class Tasks {
      */
     public static <D1, D2, D3, DATA> LinkTask<DATA> combine(IAsyncTask<D1> task1, IAsyncTask<D2> task2, IAsyncTask<D3> task3, Func3<D1, D2, D3, DATA> func) {
         return new Combine3Task<>(task1, task2, task3, LogFuncs.made("combine", func));
+    }
+
+    /**
+     * 合并多个相同类型的task
+     *
+     * @param <DATA>
+     * @return
+     */
+    public static <DATA> LinkTask<List<DATA>> combine(List<IAsyncTask<DATA>> tasks) {
+        return new CombineMoreTask<>(tasks);
     }
 
 
