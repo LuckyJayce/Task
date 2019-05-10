@@ -14,11 +14,11 @@ import java.util.List;
  */
 
 class CombineMoreTask<DATA> extends LinkTask<List<DATA>> {
-    private final List<IAsyncTask<DATA>> asyncTasks;
+    private final List<? extends IAsyncTask<DATA>> asyncTasks;
     private boolean[] states;
     private Object[] datas;
 
-    public CombineMoreTask(List<IAsyncTask<DATA>> asyncTasks) {
+    public CombineMoreTask(List<? extends IAsyncTask<DATA>> asyncTasks) {
         this.asyncTasks = asyncTasks;
         states = new boolean[asyncTasks.size()];
         datas = new Object[asyncTasks.size()];

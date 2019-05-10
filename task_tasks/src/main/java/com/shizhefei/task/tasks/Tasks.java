@@ -16,6 +16,7 @@ import com.shizhefei.task.function.Func2;
 import com.shizhefei.task.function.Func3;
 import com.shizhefei.task.function.LogFuncs;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -190,8 +191,24 @@ public class Tasks {
      * @param <DATA>
      * @return
      */
-    public static <DATA> LinkTask<List<DATA>> combine(List<IAsyncTask<DATA>> tasks) {
+    public static <DATA> LinkTask<List<DATA>> combine(List<? extends IAsyncTask<DATA>> tasks) {
         return new CombineMoreTask<>(tasks);
+    }
+
+    public static <D1, DATA> LinkTask<List<DATA>> combine(final Iterable<D1> params, final Func1<D1, IAsyncTask<DATA>> taskFactory) {
+        return Tasks.defer(new Func0<IAsyncTask<List<DATA>>>() {
+            @Override
+            public IAsyncTask<List<DATA>> call() throws Exception {
+                List<IAsyncTask<DATA>> taskList = new ArrayList<>();
+                for (D1 param : params) {
+                    IAsyncTask<DATA> call = taskFactory.call(param);
+                    if (call != null) {
+                        taskList.add(call);
+                    }
+                }
+                return combine(taskList);
+            }
+        });
     }
 
 

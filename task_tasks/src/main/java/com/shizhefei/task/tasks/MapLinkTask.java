@@ -21,6 +21,12 @@ class MapLinkTask<D, DATA> extends LinkTask<DATA> {
         SimpleTaskHelper<Object> simpleTaskHelper = new SimpleTaskHelper<>();
         simpleTaskHelper.execute(task, new SimpleCallback<D>() {
             @Override
+            public void onProgress(Object task, int percent, long current, long total, Object extraData) {
+                super.onProgress(task, percent, current, total, extraData);
+                sender.sendProgress(current, total, extraData);
+            }
+
+            @Override
             public void onPostExecute(Object task, Code code, Exception exception, D d) {
                 switch (code) {
                     case SUCCESS:
