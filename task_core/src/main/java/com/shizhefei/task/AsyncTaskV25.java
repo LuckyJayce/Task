@@ -185,6 +185,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Android SDK 25版本的AsyncTask，系统大于11版本线程池使用系统AsyncTask内部的线程池（和系统的AsyncTask共用同一个线程池），否则使用自己的线程池
+ *
  * @param <Params>
  * @param <Progress>
  * @param <Result>
@@ -209,7 +210,7 @@ abstract class AsyncTaskV25<Params, Progress, Result> {
     };
 
     private static final BlockingQueue<Runnable> sPoolWorkQueue =
-            new LinkedBlockingQueue<Runnable>(128);
+            new LinkedBlockingQueue<Runnable>(Integer.MAX_VALUE / 2);
 
     /**
      * An {@link Executor} that can be used to execute tasks in parallel.
